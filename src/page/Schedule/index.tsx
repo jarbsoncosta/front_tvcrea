@@ -149,7 +149,7 @@ export function Programacao() {
                 </tbody>
               </Table>
             )}
-            {list.length > 0 && (
+            {list.length >= 25 && (
               <ContentPaginate>
                 {/* Componente de paginação */}
                 <Pagination>

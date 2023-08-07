@@ -5,6 +5,7 @@ import {
     useContext,
     useState,
   } from 'react'
+import { api } from '../services/api'
 
   
   interface User {
@@ -55,7 +56,7 @@ import {
         username: data.username,
         password: data.password,     
       };
-      const response = await axios.post('http://10.10.0.22:8000/login/', loginData, {
+      const response = await api.post('login', loginData, {
         headers: {
           'accept': 'application/json',
           'Content-Type': 'application/json',

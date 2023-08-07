@@ -23,6 +23,7 @@ import { Trash, Video } from "@phosphor-icons/react";
 import { formatarTempoDeExecucao } from "../../utils/formatVideoLength";
 import { formatarTamanhoDoVideo } from "../../utils/formatSizeVideo";
 import { useAuth } from "../../context/authContext";
+import { api } from "../../services/api";
 
 interface ResponseData {
   id:number;
@@ -69,9 +70,8 @@ export function ComponentForm({ data }: any) {
       subject:subject,      
       observacao:observation,            
     }
-    axios
-      .post(
-        `http://10.10.0.22:8000/register`,
+    api.post(
+        `register`,
         newData,
         {
           headers: {
