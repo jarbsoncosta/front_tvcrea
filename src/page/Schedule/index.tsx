@@ -15,7 +15,8 @@ import axios from "axios";
 import { formatarTamanhoDoVideo } from "../../utils/formatSizeVideo";
 import { formatarTempoDeExecucao } from "../../utils/formatVideoLength";
 import { AiOutlineVideoCameraAdd } from "react-icons/ai";
-import { Trash} from "@phosphor-icons/react";
+import { ComponentSchedule } from "./Components/ComponentSchedule";
+
 
 interface Filmes {
   id: number;
@@ -30,6 +31,7 @@ interface Filmes {
   data_insercao: string;
   data_ultima_utilizacao: string;
   duracao: number;
+  videoId: string;
   erros: string;
   status: boolean;
 }
@@ -41,11 +43,10 @@ export function Programacao() {
 
   const [selectedVideos, setSelectedVideos] = useState<Filmes[]>([]);
 
-  console.log(selectedVideos);
-
-  const handleVideoSelect = (video) => {
+  const handleVideoSelect = (video:any) => {
     setSelectedVideos((prevSelected) => [...prevSelected, video]);
   };
+
 
   useEffect(() => {
     fetchVideoList();
@@ -66,27 +67,20 @@ export function Programacao() {
       });
   };
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page:any) => {
     setCurrentPage(page);
   };
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event:any) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleVideoRemove = (video) => {
-    setSelectedVideos((prevSelected) =>
-      prevSelected.filter((selectedVideo) => selectedVideo.id !== video.id)
-    );
-  };
-  //const filteredVideos = list.filter((video) =>
-  //video.nome.toLowerCase().includes(searchTerm.toLowerCase())
-  //);
+
 
   return (
     <Container>
       <Header />
       <Content>
-        <Card style={{ width: "450px", minHeight: "500px" }}>
+        <Card style={{ minWidth: "450px", minHeight: "500px" }}>
           <Card.Header>Lista de videos</Card.Header>
           <Card.Body>
             <Search>
@@ -122,8 +116,8 @@ export function Programacao() {
                         }}
                       >
                         <img
-                          width={25}
-                          height={25}
+                          width={30}
+                          height={30}
                           src={video.localizacao_thumb}
                           alt=""
                           style={{ marginRight: "0.5rem" }}
@@ -167,57 +161,12 @@ export function Programacao() {
             )}
           </Card.Body>
         </Card>
-        <Card style={{ width: "450px", minHeight: "500px" }}>
+        <Card style={{ minWidth: "450px", minHeight: "500px" }}>
           <Card.Header>Programação</Card.Header>
           <Card.Body>
-          {selectedVideos.length > 0 && (
-              <Table>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>Tamanho</th>
-                    <th>Duração</th>
-                    <th>Formato</th>
-                    <th>Add</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedVideos.map((video, index) => (
-                    <tr key={index}>
-                      <td
-                        style={{
-                          borderRadius: "5px 0 0 5px",
-                        }}
-                      >
-                        <img
-                          width={25}
-                          height={25}
-                          src={video.localizacao_thumb}
-                          alt=""
-                          style={{ marginRight: "0.5rem" }}
-                        />
-                        {video.nome}
-                      </td>
-                      <td>{formatarTamanhoDoVideo(video.tamanho)}</td>
-                      <td>{formatarTempoDeExecucao(video.duracao)}</td>
-                      <td>{video.formato}</td>
-                      <td
-                        style={{
-                          borderRadius: "0 5px 5px 0",
-                        }}
-                      >
-                        <ButtonAddVideo
-                           onClick={() => handleVideoRemove(video)}
-                        >
-                          <Trash />
-                        </ButtonAddVideo>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            )}
+           <ComponentSchedule selectedVideos={selectedVideos} setSelectedVideos={setSelectedVideos} />
           </Card.Body>
+        
         </Card>
       </Content>
     </Container>

@@ -11,21 +11,19 @@ export const Container = styled.main`
 
 export const Content = styled.div`
   margin: 0 auto;
- display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
   padding: 5rem 0;
 `;
-
 export const Search = styled.div`
-width: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   border-radius: 5px;
   gap: 0.5rem;
 `;
-
 export const Input = styled.input`
   width: 100%;
   border-radius: 5px;
@@ -37,63 +35,54 @@ export const Input = styled.input`
     outline: none;
     padding-left: 10px; /* Espaçamento do ponteiro em foco */
   }
-  &::placeholder{
+  &::placeholder {
     padding: 0 10px;
     font-size: 0.75rem;
+  }
+`;
+export const Table = styled.table`
+  margin-top: 1rem;
+  border-collapse: collapse;
+  width: 100%;
+  th,
+  td {
+    border: none;
+    text-align: left;
+    padding: 5px 10px;
+  }
+  td {
+    //background-color: ${(props) => props.theme["gray-100"]};
+    padding-bottom: 5px; /* Adicione esse estilo para dar espaço entre as linhas */
+    img {
+      border-radius: 100%;
+    }
+  }
+  thead {
+    border-radius: 5px;
+    font-size: 0.75rem;
+  }
+  tbody tr:hover {
+    background-color: ${(props) => props.theme["gray-100"]}; /* Cor de realce ao passar o mouse */
+  }
+`;
+export const ContentPaginate = styled.div`
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+`;
+export const ButtonAddVideo = styled.button`
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  svg {
+    width: 30px;
+    height: 30px;
+    color: ${(props) => props.theme["blue"]};
+  }
+  :hover {
+    color: ${(props) => props.theme["blue-back"]};
    
   }
 `;
-
-export const Table = styled.table`
-margin-top: 1rem;
-  border-collapse: collapse;
-  width: 100%;
-  th, td {
-    border: none;
-    text-align: left;
-    padding: 5px 10px;     
-  }
-  td{
-     //background-color: ${(props) => props.theme["gray-100"]}; 
-     padding-bottom: 5px; /* Adicione esse estilo para dar espaço entre as linhas */
-    img{
-        border-radius: 100%;
-    }   
-  }
-  thead{
-    border-radius: 5px;
-    font-size: 0.75rem;
-    
-}
-tbody tr:hover {
-    background-color: #f5f5f5; /* Cor de realce ao passar o mouse */
-  }
- 
-`;
-
-export const ContentPaginate = styled.div`
-margin-top: 1rem;
-width: 100%;
-display: flex;
-align-items: center;
-justify-content:right;
-`;
-
-
-export const ButtonAddVideo = styled.button`
-background: transparent;
-border: 0;
-box-shadow: none;
-svg{
-  width: 20px;
-  height: 20px;
-  color:${(props) => props.theme["blue"]} ;
-
-}
-:hover {
-    color: ${(props) => props.theme["blue-back"]};
-    width: 25px;
-    height: 25px;
-  }
-`;
-
