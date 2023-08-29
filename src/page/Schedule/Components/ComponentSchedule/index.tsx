@@ -13,14 +13,13 @@ import {
   SubmittButton,
 } from "./style";
 
-
 export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
   const videosWithIds = selectedVideos.map((video) => ({
     ...video,
     videoId: uuidv4(),
   }));
 
- const handleVideoRemove = (video) => {
+  const handleVideoRemove = (video) => {
     setSelectedVideos(() =>
       videosWithIds.filter(
         (selectedVideo) => selectedVideo.videoId !== video.videoId
@@ -36,12 +35,9 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
     setSelectedVideos(updatedVideos);
   };
 
-
-function handleSubmit(){
-  console.log(videosWithIds, "lista dpar enviar")
-}
-
-
+  function handleSubmit() {
+    console.log(videosWithIds, "lista dpar enviar");
+  }
 
   return (
     <Container>
@@ -67,7 +63,7 @@ function handleSubmit(){
               <span>{formatarTempoDeExecucao(video.duracao)}</span>
               <span>{video.formato}</span>
               <ContentButton>
-              <DivMoveVideo>
+                <DivMoveVideo>
                   <button
                     onClick={() => handleVideoMove(index, "up")}
                     disabled={index === 0}
@@ -85,17 +81,19 @@ function handleSubmit(){
                   <button onClick={() => handleVideoRemove(video)}>
                     <Trash size={25} />
                   </button>
-                </DivButtonTrash>               
+                </DivButtonTrash>
               </ContentButton>
             </Item>
           ))}
         </Content>
       )}
-      <DivButtonSubmit>
-      <SubmittButton onClick={handleSubmit} size="sm" variant="success"> 
-      {videosWithIds.length > 1 ? "Enviar lista" : "Enviar" }
-      </SubmittButton>
-      </DivButtonSubmit>
+      {videosWithIds.length > 0 && (
+        <DivButtonSubmit>
+          <SubmittButton onClick={handleSubmit} size="sm" variant="success">
+            {videosWithIds.length > 1 ? "Enviar lista" : "Enviar"}
+          </SubmittButton>
+        </DivButtonSubmit>
+      )}
     </Container>
   );
 }
