@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, useRef, useEffect } from "react";
-import axios, { AxiosResponse } from "axios";
+import  { AxiosResponse } from "axios";
 import { RiVideoUploadLine } from "react-icons/ri";
 import { Container, File, Icon } from "./styles";
 import { toast } from "react-toastify";

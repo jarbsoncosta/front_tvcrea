@@ -1,96 +1,120 @@
-import { Trash } from "@phosphor-icons/react";
-import { v4 as uuidv4 } from "uuid";
-import { formatarTamanhoDoVideo } from "../../../../utils/formatSizeVideo";
-import { formatarTempoDeExecucao } from "../../../../utils/formatVideoLength";
-import {
-  Container,
-  Content,
-  ContentButton,
-  DivButtonSubmit,
-  DivButtonTrash,
-  DivMoveVideo,
-  Item,
-  SubmittButton,
-} from "./style";
+// Importação de componentes e estilos necessários
+import { Trash } from "@phosphor-icons/react"; // Ícone da lixeira
+import { formatarTamanhoDoVideo } from "../../../../utils/formatSizeVideo"; // Função para formatar tamanho do vídeo
+import { formatarTempoDeExecucao } from "../../../../utils/formatVideoLength"; // Função para formatar tempo de execução do vídeo
+import { ButtonTask, Container, DivButtonSubmit, SubmittButton } from "./style"; // Estilos importados
+import { useState } from "react";
+import { Table } from "../../styles";
 
+// Definição do componente ComponentSchedule
 export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
-  const videosWithIds = selectedVideos.map((video) => ({
-    ...video,
-    videoId: uuidv4(),
-  }));
+  const [draggedIndex, setDraggedIndex] = useState(null);
 
-  const handleVideoRemove = (video) => {
-    setSelectedVideos(() =>
-      videosWithIds.filter(
-        (selectedVideo) => selectedVideo.videoId !== video.videoId
-      )
-    );
+  const handleDragStart = (e, index) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", index.toString());
   };
 
-  const handleVideoMove = (index, direction) => {
-    const updatedVideos = [...selectedVideos];
-    const [movedVideo] = updatedVideos.splice(index, 1);
-    const newIndex = direction === "up" ? index - 1 : index + 1;
-    updatedVideos.splice(newIndex, 0, movedVideo);
-    setSelectedVideos(updatedVideos);
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
   };
 
+  const handleDrop = (e, index) => {
+    e.preventDefault();
+
+    if (draggedIndex === null) {
+      return;
+    }
+
+    const newFilmes = [...selectedVideos];
+    const [movedFilme] = newFilmes.splice(draggedIndex, 1);
+
+    if (index === 0) {
+      // Move para o início da lista
+      newFilmes.unshift(movedFilme);
+    } else if (index === selectedVideos.length) {
+      // Move para o final da lista
+      newFilmes.push(movedFilme);
+    } else {
+      // Move para uma posição intermediária
+      newFilmes.splice(index, 0, movedFilme);
+    }
+
+    setSelectedVideos(newFilmes);
+    setDraggedIndex(null);
+  };
+  // Função chamada ao clicar no botão de envio
   function handleSubmit() {
-    console.log(videosWithIds, "lista dpar enviar");
+    console.log(selectedVideos, "lista par enviar");
   }
 
+  const removerFilme = (index) => {
+    const newFilmes = [...selectedVideos];
+    newFilmes.splice(index, 1);
+    setSelectedVideos(newFilmes);
+  };
+
+  // Renderização do componente
   return (
     <Container>
-      {videosWithIds.length > 0 && (
-        <Content>
-          {videosWithIds.map((video, index) => (
-            <Item key={video.videoId}>
-              <span
-                style={{
-                  borderRadius: "5px 0 0 5px",
-                }}
+      {/* Verifica se há vídeos na lista */}
+      <div>
+        <Table>
+          <thead>
+            <tr>
+              <th>Nº</th>
+              <th style={{ textAlign: "center" }}>Nome</th>
+              <th>Tamanho</th>
+              <th>Duração</th>
+              <th>Formato</th>
+            </tr>
+          </thead>
+          <tbody>
+            {selectedVideos.map((filme, index) => (
+              <tr
+                key={index}
+                title="Arraste e solte para mudar a ordem de reprodução video"
+                draggable
+                onDragStart={(e) => handleDragStart(e, index)}
+                onDragOver={(e) => handleDragOver(e, index)}
+                onDrop={(e) => handleDrop(e, index)}
               >
-                <img
-                  width={30}
-                  height={30}
-                  src={video.localizacao_thumb}
-                  alt=""
-                  style={{ marginRight: "0.5rem" }}
-                />
-                {video.nome}
-              </span>
-              <span>{formatarTamanhoDoVideo(video.tamanho)}</span>
-              <span>{formatarTempoDeExecucao(video.duracao)}</span>
-              <span>{video.formato}</span>
-              <ContentButton>
-                <DivMoveVideo>
-                  <button
-                    onClick={() => handleVideoMove(index, "up")}
-                    disabled={index === 0}
-                  >
-                    &#8679; {/* Seta para cima */}
-                  </button>
-                  <button
-                    onClick={() => handleVideoMove(index, "down")}
-                    disabled={index === selectedVideos.length - 1}
-                  >
-                    &#8681; {/* Seta para baixo */}
-                  </button>
-                </DivMoveVideo>
-                <DivButtonTrash>
-                  <button onClick={() => handleVideoRemove(video)}>
-                    <Trash size={25} />
-                  </button>
-                </DivButtonTrash>
-              </ContentButton>
-            </Item>
-          ))}
-        </Content>
-      )}
-      {videosWithIds.length > 0 && (
+                <td>{index + 1}</td>
+                <td
+                  style={{
+                    borderRadius: "5px 0 0 5px",
+                  }}
+                >
+                  <img
+                    width={30}
+                    height={30}
+                    src={filme.localizacao_thumb}
+                    alt=""
+                    style={{ marginRight: "0.5rem" }}
+                  />
+                  {filme.nome}
+                </td>
+                <td style={{ textAlign: "center" }}>{formatarTamanhoDoVideo(filme.tamanho)}</td>
+                <td style={{ textAlign: "center" }}>
+                <span style={{background:"#e2e8f0", padding:"2px 5px", borderRadius:"4px"}}> {formatarTempoDeExecucao(filme.duracao)}</span>
+                  </td>
+                <td style={{ textAlign: "center" }}>{filme.formato}</td>
+                <td>
+                  <ButtonTask title="Remover da programação" onClick={() => removerFilme(index)}>
+                  <Trash size={25} />
+                  </ButtonTask>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+      {selectedVideos.length > 0 && (
         <DivButtonSubmit>
+          {/* Botão de envio */}
           <SubmittButton onClick={handleSubmit} size="sm" variant="success">
-            {videosWithIds.length > 1 ? "Enviar lista" : "Enviar"}
+            {selectedVideos.length > 1 ? "Enviar programação" : "Enviar"}
           </SubmittButton>
         </DivButtonSubmit>
       )}
