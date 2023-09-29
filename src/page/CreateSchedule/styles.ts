@@ -28,6 +28,9 @@ export const ContentCard = styled.div`
   min-height: 600px;
   padding: 2rem;
   border-radius: 4px;
+  @media (max-width: 750px) {
+    width: 100%;  
+  }
 `;
 
 export const Link = styled(NavLink)`
@@ -54,6 +57,7 @@ export const Content = styled.div`
   padding: 5rem 0;
   @media (max-width: 750px) {
     width: 100%;
+    
   }
 `;
 export const Search = styled.div`

@@ -79,6 +79,7 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
                 onDragStart={(e) => handleDragStart(e, index)}
                 onDragOver={(e) => handleDragOver(e, index)}
                 onDrop={(e) => handleDrop(e, index)}
+                style={{cursor:"pointer"}}
               >
                 <td>{index + 1}</td>
                 <td
@@ -114,7 +115,7 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
         <DivButtonSubmit>
           {/* Botão de envio */}
           <SubmittButton onClick={handleSubmit} size="sm" variant="success">
-            {selectedVideos.length > 1 ? "Enviar programação" : "Enviar"}
+            {selectedVideos.length > 1 ? ("Enviar programação") : "Enviar"}
           </SubmittButton>
         </DivButtonSubmit>
       )}

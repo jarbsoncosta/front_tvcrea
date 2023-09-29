@@ -1,8 +1,9 @@
 import { Route, Routes } from "react-router-dom";
-import { UploadVideo } from "../page/Dashboard";
+import { UploadVideo } from "../page/UploadVideo";
 import { Login } from "../page/Login";
+import { CreateSchedule } from "../page/CreateSchedule";
 //import PrivateRoutes from "./PrivateRouter";
-import { Programacao} from "../page/Schedule";
+
 
 //import { DefaultLayout } from './components/Layout/DefaultLayout'
 
@@ -10,8 +11,8 @@ export function Router() {
   return (
     <Routes>
        <Route path="/" element={<Login />} />
-      <Route path="/upload" element={<UploadVideo />} />
-      <Route path="/programacao" element={<Programacao />} />
+      <Route path="/cadastrar-video" element={<UploadVideo />} />
+      <Route path="/criar-programacao" element={<CreateSchedule />} />
     </Routes>
   );
 }

@@ -18,7 +18,7 @@ import { formatarTamanhoDoVideo } from "../../utils/formatSizeVideo";
 import { formatarTempoDeExecucao } from "../../utils/formatVideoLength";
 import { ComponentSchedule } from "./Components/ComponentSchedule";
 import Img from "../../assets/download.jpg";
-import { ArrowFatLinesRight } from "@phosphor-icons/react";
+import { ArrowFatLinesRight, FilmReel, VideoCamera } from "@phosphor-icons/react";
 import { ModalContent } from "../../components/Modal";
 
 interface Filmes {
@@ -77,7 +77,7 @@ const filmes: Filmes[] = [
   // Adicione mais objetos conforme necessário
 ];
 
-export function Programacao() {
+export function CreateSchedule() {
   const [list, setList] = useState<Filmes[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
@@ -131,7 +131,7 @@ export function Programacao() {
           <Title>
             <h5>Lista de videos</h5>
 
-            <Link to="/upload">Add</Link>
+            <Link to="/cadastrar-video"><VideoCamera size={20} weight="bold" style={{marginRight:"0.5rem"}} /> Add</Link>
           </Title>
 
           <Search>
@@ -219,7 +219,9 @@ export function Programacao() {
           )}
         </ContentCard>
         <ContentCard>
-          <Title>Programação</Title>
+          <Title>
+            <h5>Programação</h5>
+          </Title>
 
           <ComponentSchedule
             selectedVideos={selectedVideos}

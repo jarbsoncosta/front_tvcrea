@@ -40,7 +40,7 @@ export function  Login() {
         if (!hasErrors) {
           try {
             await signIn({ username, password });
-            window.location.replace("/upload");
+            window.location.replace("/programacao");
           } catch {
             toast.error("Usuário ou Senha incorretos!");
           }
