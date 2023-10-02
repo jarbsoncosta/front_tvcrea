@@ -5,6 +5,7 @@ import { formatarTempoDeExecucao } from "../../../../utils/formatVideoLength"; /
 import { ButtonTask, Container, DivButtonSubmit, SubmittButton } from "./style"; // Estilos importados
 import { useState } from "react";
 import { Table } from "../../styles";
+import { ModalCreateSchedule } from "../../ModalCreateSchedule";
 
 // Definição do componente ComponentSchedule
 export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
@@ -44,10 +45,12 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
     setSelectedVideos(newFilmes);
     setDraggedIndex(null);
   };
+/*
   // Função chamada ao clicar no botão de envio
   function handleSubmit() {
     console.log(selectedVideos, "lista par enviar");
   }
+*/
 
   const removerFilme = (index) => {
     const newFilmes = [...selectedVideos];
@@ -55,6 +58,11 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
     setSelectedVideos(newFilmes);
   };
 
+  //Abrir Modal Imagem do video
+  const [modalShow, setModalShow] = useState(false);
+  function activeModal() {
+    setModalShow(true);
+  }
   // Renderização do componente
   return (
     <Container>
@@ -79,7 +87,7 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
                 onDragStart={(e) => handleDragStart(e, index)}
                 onDragOver={(e) => handleDragOver(e, index)}
                 onDrop={(e) => handleDrop(e, index)}
-                style={{cursor:"pointer"}}
+                style={{ cursor: "pointer" }}
               >
                 <td>{index + 1}</td>
                 <td
@@ -96,14 +104,28 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
                   />
                   {filme.nome}
                 </td>
-                <td style={{ textAlign: "center" }}>{formatarTamanhoDoVideo(filme.tamanho)}</td>
                 <td style={{ textAlign: "center" }}>
-                <span style={{background:"#e2e8f0", padding:"2px 5px", borderRadius:"4px"}}> {formatarTempoDeExecucao(filme.duracao)}</span>
-                  </td>
+                  {formatarTamanhoDoVideo(filme.tamanho)}
+                </td>
+                <td style={{ textAlign: "center" }}>
+                  <span
+                    style={{
+                      background: "#e2e8f0",
+                      padding: "2px 5px",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    {" "}
+                    {formatarTempoDeExecucao(filme.duracao)}
+                  </span>
+                </td>
                 <td style={{ textAlign: "center" }}>{filme.formato}</td>
                 <td>
-                  <ButtonTask title="Remover da programação" onClick={() => removerFilme(index)}>
-                  <Trash size={25} />
+                  <ButtonTask
+                    title="Remover da programação"
+                    onClick={() => removerFilme(index)}
+                  >
+                    <Trash size={25} />
                   </ButtonTask>
                 </td>
               </tr>
@@ -114,11 +136,17 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
       {selectedVideos.length > 0 && (
         <DivButtonSubmit>
           {/* Botão de envio */}
-          <SubmittButton onClick={handleSubmit} size="sm" variant="success">
-            {selectedVideos.length > 1 ? ("Enviar programação") : "Enviar"}
+          <SubmittButton  onClick={activeModal} size="sm" variant="success">
+            {selectedVideos.length > 1 ? "Enviar programação" : "Enviar"}
           </SubmittButton>
         </DivButtonSubmit>
       )}
+         <ModalCreateSchedule
+            show={modalShow}
+            close={setModalShow}
+            data={selectedVideos}
+           
+          />
     </Container>
   );
 }

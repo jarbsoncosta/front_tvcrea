@@ -31,14 +31,14 @@ export function Header() {
 
   return (
     <HeaderContainer ref={dropdownRef}>
-      <div style={{ marginLeft: " 2rem" }}>
+      <div style={{ marginLeft: "2rem" }}>
         <ButtonDropdown onClick={toggleDropdown}>Programação{isOpen ?  <CaretUp size={20} />: <CaretDown size={20} />} </ButtonDropdown>
         
         {isOpen && (
           <DropdownContent>
             <a href="/criar-programacao">Criar programação</a>
-            <a href="cadastrar-video">Cadastrar video</a>
-            <a href="#">Listagem</a>
+            <a href="/cadastrar-video">Cadastrar video</a>
+            <a href="/programacao">Listagem</a>
           </DropdownContent>
         )}
       </div>
