@@ -1,5 +1,5 @@
 // Importação de componentes e estilos necessários
-import { Trash } from "@phosphor-icons/react"; // Ícone da lixeira
+import { Trash, Upload } from "@phosphor-icons/react"; // Ícone da lixeira
 import { formatarTamanhoDoVideo } from "../../../../utils/formatSizeVideo"; // Função para formatar tamanho do vídeo
 import { formatarTempoDeExecucao } from "../../../../utils/formatVideoLength"; // Função para formatar tempo de execução do vídeo
 import { ButtonTask, Container, DivButtonSubmit, SubmittButton } from "./style"; // Estilos importados
@@ -45,19 +45,12 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
     setSelectedVideos(newFilmes);
     setDraggedIndex(null);
   };
-/*
-  // Função chamada ao clicar no botão de envio
-  function handleSubmit() {
-    console.log(selectedVideos, "lista par enviar");
-  }
-*/
 
   const removerFilme = (index) => {
     const newFilmes = [...selectedVideos];
     newFilmes.splice(index, 1);
     setSelectedVideos(newFilmes);
   };
-
   //Abrir Modal Imagem do video
   const [modalShow, setModalShow] = useState(false);
   function activeModal() {
@@ -136,17 +129,19 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
       {selectedVideos.length > 0 && (
         <DivButtonSubmit>
           {/* Botão de envio */}
-          <SubmittButton  onClick={activeModal} size="sm" variant="success">
-            {selectedVideos.length > 1 ? "Enviar programação" : "Enviar"}
+          <SubmittButton onClick={activeModal}>
+          <Upload size={20} weight="bold" />
+           <span> Enviar</span>
           </SubmittButton>
         </DivButtonSubmit>
       )}
-         <ModalCreateSchedule
-            show={modalShow}
-            close={setModalShow}
-            data={selectedVideos}
-           
-          />
+      <ModalCreateSchedule
+        show={modalShow}
+        close={setModalShow}
+        data={selectedVideos}
+        setSelectedVideos={setSelectedVideos}
+
+      />
     </Container>
   );
 }

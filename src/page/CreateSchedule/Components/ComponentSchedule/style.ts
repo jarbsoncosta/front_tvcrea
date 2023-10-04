@@ -20,14 +20,25 @@ export const DivMoveVideo = styled.div`
 export const DivButtonSubmit = styled.div`
   padding: 1rem;
   display: flex;
+  align-items: center;
   justify-content: right;
   gap: 1rem;
+
 `;
 
-export const SubmittButton = styled(Button)`
+export const SubmittButton = styled.button`
+ padding: 5px 1rem;
+ border: 0;
+ gap: 0.5rem;
   display: flex;
-  box-shadow: none;
-  gap: 1rem;
+  align-items: center;
+  border-radius: 4px;
+  color: ${(props) => props.theme["white"]};
+  background-color: ${(props) => props.theme["blue"]};
+   transition: 1s;
+  &:hover{
+    background-color: ${(props) => props.theme["blue-back"]};
+  }
 `;
 export const ButtonTask = styled.button`
 display: flex;

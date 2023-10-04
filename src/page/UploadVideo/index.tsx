@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, useRef, useEffect } from "react";
-import  { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { RiVideoUploadLine } from "react-icons/ri";
-import { Container, File, Icon } from "./styles";
+import { Button, Container, Content, File, Icon } from "./styles";
 import { toast } from "react-toastify";
 import { LoadingComponent } from "../../components/Loading";
 import { ComponentForm } from "../../components/ComponentForm";
@@ -61,34 +61,41 @@ export function UploadVideo() {
   }, [selectedFile]);
 
   return (
-    <Container>
+    <>
       <Header />
-      {!storedFile && (
-        <File>
-          <input
-            type="file"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
-          <Icon>
-            <RiVideoUploadLine onClick={handleButtonClick} />
-          </Icon>
-        </File>
-      )}
-      <div style={{ marginTop: "2rem" }}>
-        {isLoading && selectedFile ? (
-          <LoadingComponent text="Carregando..." />
-        ) : (
-          !storedFile && (
-            <span style={{ color: "#ffff" }}>Selecione um arquivo</span>
-          )
-        )}
-      </div>
+      <Container>
+        <Content>
+          {!storedFile && (
+            <File>
+             <Icon>
+                <RiVideoUploadLine />
+              </Icon>
+            </File>
+          )}
+          <div style={{ marginTop: "2rem" }}>
+            {isLoading && selectedFile ? (
+              <LoadingComponent text="Carregando..." />
+            ) : (
+              !storedFile && (            
+              <Button onClick={handleButtonClick} >
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
+              Selecione um video
+            </Button>
+                
+              )
+            )}
+          </div>
 
-      {storedFile && (
-        <ComponentForm data={result} setSelectedFile={setSelectedFile} />
-      )}
-    </Container>
+          {storedFile && (
+            <ComponentForm data={result} setSelectedFile={setSelectedFile} />
+          )}
+        </Content>
+      </Container>
+    </>
   );
 }

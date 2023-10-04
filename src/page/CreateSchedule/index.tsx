@@ -18,7 +18,7 @@ import { formatarTamanhoDoVideo } from "../../utils/formatSizeVideo";
 import { formatarTempoDeExecucao } from "../../utils/formatVideoLength";
 import { ComponentSchedule } from "./Components/ComponentSchedule";
 import Img from "../../assets/download.jpg";
-import { ArrowFatLinesRight, FilmReel, VideoCamera } from "@phosphor-icons/react";
+import { ArrowFatLinesRight, VideoCamera } from "@phosphor-icons/react";
 import { ModalContent } from "../../components/Modal";
 
 interface Filmes {
