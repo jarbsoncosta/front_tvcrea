@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import { Button } from "react-bootstrap";
 
 export const Container = styled.div`
   width: 100%;

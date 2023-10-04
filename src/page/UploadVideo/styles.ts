@@ -2,6 +2,7 @@ import styled, { keyframes } from "styled-components";
 
 export const Container = styled.main`
   width: 100%;
+  padding: 0 2rem;
   height: 95vh;
   display: flex;
   flex-direction: column;
@@ -57,6 +58,9 @@ export const Content = styled.div`
   border: 5px dashed white;
   border-radius: 30px;
   padding: 0 0 2rem 0;
+  @media (max-width: 750px) {
+    width: 100%;  
+  }
 `;
 export const File = styled.div`
   margin-top: 2rem;

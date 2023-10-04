@@ -1,10 +1,6 @@
 import { useAuth } from "../../context/authContext";
 import { useEffect, useRef, useState } from "react";
-import {
-  ButtonDropdown,
-  DropdownContent,
-  HeaderContainer,
-} from "./styles";
+import { ButtonDropdown, DropdownContent, HeaderContainer } from "./styles";
 import { User, DoorOpen, CaretDown, CaretUp } from "@phosphor-icons/react";
 
 export function Header() {
@@ -32,12 +28,14 @@ export function Header() {
   return (
     <HeaderContainer ref={dropdownRef}>
       <div style={{ marginLeft: "2rem" }}>
-        <ButtonDropdown onClick={toggleDropdown}>Programação{isOpen ?  <CaretUp size={20} />: <CaretDown size={20} />} </ButtonDropdown>
-        
+        <ButtonDropdown onClick={toggleDropdown}>
+          Programação{isOpen ? <CaretUp size={20} /> : <CaretDown size={20} />}{" "}
+        </ButtonDropdown>
+
         {isOpen && (
           <DropdownContent>
-            <a href="/criar-programacao">Criar programação</a>
             <a href="/cadastrar-video">Cadastrar video</a>
+            <a href="/criar-programacao">Criar programação</a>
             <a href="/programacao">Listagem</a>
           </DropdownContent>
         )}
