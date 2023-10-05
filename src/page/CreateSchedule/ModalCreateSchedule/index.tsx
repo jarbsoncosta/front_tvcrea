@@ -6,6 +6,7 @@ import { ContentModal, Form } from "./styles";
 import { X } from "@phosphor-icons/react";
 import { formatarData } from "../../../utils/formatDate";
 import { toast } from "react-toastify";
+import { pt } from 'date-fns/locale';
 
 export function ModalCreateSchedule(props) {
   const [dateTime, setDateTime] = useState(new Date());
@@ -68,7 +69,7 @@ export function ModalCreateSchedule(props) {
             Enviar lista para reprodução
           </strong>
           <Form onSubmit={handleSubmit}>
-            <label>Selecione uma Data e Hora:</label>
+            <label>Selecione uma Data e Hora (Exibir a programação)</label>
             <DatePicker
               className="datepicker-wrapper"
               selected={dateTime}
@@ -76,6 +77,7 @@ export function ModalCreateSchedule(props) {
               showTimeSelect
               dateFormat="dd/MM/yyyy HH:mm"
               timeFormat="HH:mm"
+              locale={pt} // Configuração para o idioma português
             />
             <label>Título</label>
             <input

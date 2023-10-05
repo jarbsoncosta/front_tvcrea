@@ -53,7 +53,7 @@ const filmes: Filmes[] = [
     localizacao_thumb: Img,
     data_insercao: "2023-09-26",
     data_ultima_utilizacao: "2023-09-26",
-    duracao: 120, // duração em segundos
+    duracao: 13500, // duração em segundos
     videoId: "12345",
     erros: "Nenhum erro",
     status: true,
@@ -70,7 +70,7 @@ const filmes: Filmes[] = [
     localizacao_thumb: Img,
     data_insercao: "2023-09-26",
     data_ultima_utilizacao: "2023-09-26",
-    duracao: 90, // duração em segundos
+    duracao: 95, // duração em segundos
     videoId: "67890",
     erros: "Alguns erros",
     status: false,

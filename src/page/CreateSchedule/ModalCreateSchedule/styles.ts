@@ -28,12 +28,6 @@ export const Form = styled.form`
   label {
     width: 100%;
   }
-  .datepicker-wrapper {
-    width: 465px;
-    padding: 5px;
-    border-radius: 4px;
-    border: 1px solid ${(props) => props.theme["gray-300"]};
-  }
   button{
     padding: 5px;
     border-radius: 4px;
