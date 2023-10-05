@@ -67,26 +67,25 @@ export function UploadVideo() {
         <Content>
           {!storedFile && (
             <File>
-             <Icon>
+              <Icon>
                 <RiVideoUploadLine />
               </Icon>
             </File>
           )}
           <div style={{ marginTop: "2rem" }}>
             {isLoading && selectedFile ? (
-              <LoadingComponent text="Carregando..." />
+              <Button onClick={handleButtonClick}>Carregando...</Button>
             ) : (
-              !storedFile && (            
-              <Button onClick={handleButtonClick} >
-              <input
-                type="file"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
-              Selecione um video
-            </Button>
-                
+              !storedFile && (
+                <Button onClick={handleButtonClick}>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                  />
+                  Selecione um video
+                </Button>
               )
             )}
           </div>

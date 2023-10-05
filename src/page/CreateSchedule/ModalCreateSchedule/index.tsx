@@ -9,8 +9,16 @@ import { toast } from "react-toastify";
 
 export function ModalCreateSchedule(props) {
   const [dateTime, setDateTime] = useState(new Date());
+
   const dataProgramacao = formatarData(dateTime);
   const [title, setTitle] = useState("");
+  const [erroTitle, setErroTitle] = useState("");
+
+  function resetStates() {
+    setTitle("");
+    props.setSelectedVideos([]);
+    props.close();
+  }
 
   const handleDateTimeChange = (newDateTime) => {
     // Verificar se a nova data e hora são maiores ou iguais à data e hora atuais
@@ -25,15 +33,21 @@ export function ModalCreateSchedule(props) {
   };
   // Função chamada ao clicar no botão de envio
   function handleSubmit(event) {
-    const data = {
-      title,
-      listVideos: props.data,
-      dataProgramacao,
-    };
     event.preventDefault();
-    console.log(data);
-    props.setSelectedVideos([]);
-    props.close();
+    if (!title) {
+      setErroTitle("Título é obrigatorio");
+    } else if (dateTime < new Date()) {
+      toast.warning("Data selecionada não está disponivel.");
+    } else {
+      const data = {
+        title,
+        listVideos: props.data,
+        dataProgramacao,
+      };
+      console.log(data);
+      toast.success("Programação enviada com sucesso!");
+      resetStates();
+    }
   }
 
   return (
@@ -50,7 +64,9 @@ export function ModalCreateSchedule(props) {
               <X size={25} weight="bold" />
             </button>
           </div>
-          <strong style={{fontSize:"1.2rem"}}>Enviar lista de reprodução</strong>
+          <strong style={{ fontSize: "1.2rem" }}>
+            Enviar lista para reprodução
+          </strong>
           <Form onSubmit={handleSubmit}>
             <label>Selecione uma Data e Hora:</label>
             <DatePicker
@@ -67,6 +83,7 @@ export function ModalCreateSchedule(props) {
               onChange={(e) => handleTitleChange(e.target.value)}
               placeholder="Título"
             />
+            {erroTitle && <p style={{ color: "red" }}>{erroTitle}</p>}
             <button type="submit">Salvar</button>
           </Form>
         </ContentModal>

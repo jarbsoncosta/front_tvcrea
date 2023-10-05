@@ -116,6 +116,9 @@ export const Button= styled.button`
   &:hover {
     background-color: ${(props) => props.theme["green-700"]};
   }
+  &:focus{
+    box-shadow: none;
+  }
 `;
 export const ButtonTrash = styled.div`
   background: ${(props) => props.theme["gray-100"]};

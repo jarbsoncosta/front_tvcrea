@@ -132,3 +132,17 @@ export const ButtonAddVideo = styled.button`
     box-shadow: none;
   }
 `;
+
+export const ButtonTask = styled.button`
+display: flex;
+background-color:transparent;
+border: 0;
+color:${(props) => props.theme["red-500"]};
+border-radius: 100%;
+box-shadow: none;
+padding: 5px;
+&:hover{
+ background-color:${(props) => props.theme["red-200"]};
+ box-shadow: none;
+}
+`;

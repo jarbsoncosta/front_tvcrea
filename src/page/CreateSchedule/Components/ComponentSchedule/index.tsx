@@ -72,57 +72,76 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
             </tr>
           </thead>
           <tbody>
-            {selectedVideos.map((filme, index) => (
-              <tr
-                key={index}
-                title="Arraste e solte para mudar a ordem de reprodução video"
-                draggable
-                onDragStart={(e) => handleDragStart(e, index)}
-                onDragOver={(e) => handleDragOver(e, index)}
-                onDrop={(e) => handleDrop(e, index)}
-                style={{ cursor: "pointer" }}
-              >
-                <td>{index + 1}</td>
-                <td
-                  style={{
-                    borderRadius: "5px 0 0 5px",
-                  }}
+            {selectedVideos.map((filme, index) => {
+              {
+                /* let formatoIcone;
+              switch (filme.formato.toLocaleLowerCase()) {
+                case "mp4":
+                  formatoIcone = <img src="" alt="" />;
+                  break;
+                case "avi":
+                  formatoIcone =<img src="" alt="" />;
+                  break;
+                // Adicione mais casos para outros formatos, se necessário
+                default:
+                  formatoIcone = filme.formato.toLocaleLowerCase()
+                  break;
+              } */
+              }
+              return (
+                <tr
+                  key={index}
+                  title="Arraste e solte para mudar a ordem de reprodução video"
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDragOver={(e) => handleDragOver(e, index)}
+                  onDrop={(e) => handleDrop(e, index)}
+                  style={{ cursor: "pointer" }}
                 >
-                  <img
-                    width={30}
-                    height={30}
-                    src={filme.localizacao_thumb}
-                    alt=""
-                    style={{ marginRight: "0.5rem" }}
-                  />
-                  {filme.nome}
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  {formatarTamanhoDoVideo(filme.tamanho)}
-                </td>
-                <td style={{ textAlign: "center" }}>
-                  <span
+                  <td>{index + 1}</td>
+                  <td
                     style={{
-                      background: "#e2e8f0",
-                      padding: "2px 5px",
-                      borderRadius: "4px",
+                      borderRadius: "5px 0 0 5px",
                     }}
                   >
-                    {" "}
-                    {formatarTempoDeExecucao(filme.duracao)}
-                  </span>
-                </td>
-                <td style={{ textAlign: "center" }}>{filme.formato}</td>
-                <td>
-                  <ButtonTask
-                    title="Remover da programação"
-                    onClick={() => removerFilme(index)}
-                  >
-                    <Trash size={25} />
-                  </ButtonTask>
-                </td>
-              </tr>
-            ))}
+                    <img
+                      width={30}
+                      height={30}
+                      src={filme.localizacao_thumb}
+                      alt=""
+                      style={{ marginRight: "0.5rem" }}
+                    />
+                    {filme.nome}
+                  </td>
+                  <td style={{ textAlign: "center", fontSize:"0.75rem", color:"#6b7280" }}>
+                    {formatarTamanhoDoVideo(filme.tamanho)}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    <span
+                      style={{
+                        background: "#e2e8f0",
+                        padding: "2px 5px",
+                        borderRadius: "4px",
+                        color: "#074e8c",
+                      }}
+                    >
+                      {formatarTempoDeExecucao(filme.duracao)}
+                    </span>
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {filme.formato.toLocaleLowerCase()}
+                  </td>
+                  <td>
+                    <ButtonTask
+                      title="Remover da programação"
+                      onClick={() => removerFilme(index)}
+                    >
+                      <Trash size={23} />
+                    </ButtonTask>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </Table>
       </div>
@@ -130,8 +149,8 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
         <DivButtonSubmit>
           {/* Botão de envio */}
           <SubmittButton onClick={activeModal}>
-          <Upload size={20} weight="bold" />
-           <span> Enviar</span>
+            <Upload size={20} weight="bold" />
+            <span> Enviar</span>
           </SubmittButton>
         </DivButtonSubmit>
       )}
@@ -140,7 +159,6 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
         close={setModalShow}
         data={selectedVideos}
         setSelectedVideos={setSelectedVideos}
-
       />
     </Container>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   ButtonAddVideo,
+  ButtonTask,
   Container,
   Content,
   ContentCard,
@@ -18,7 +19,7 @@ import { formatarTamanhoDoVideo } from "../../utils/formatSizeVideo";
 import { formatarTempoDeExecucao } from "../../utils/formatVideoLength";
 import { ComponentSchedule } from "./Components/ComponentSchedule";
 import Img from "../../assets/download.jpg";
-import { ArrowFatLinesRight, VideoCamera } from "@phosphor-icons/react";
+import { ArrowFatLinesRight, Trash, VideoCamera } from "@phosphor-icons/react";
 import { ModalContent } from "../../components/Modal";
 
 interface Filmes {
@@ -131,7 +132,14 @@ export function CreateSchedule() {
           <Title>
             <h5>Lista de videos</h5>
 
-            <Link to="/cadastrar-video"><VideoCamera size={20} weight="bold" style={{marginRight:"0.5rem"}} /> Add</Link>
+            <Link to="/cadastrar-video">
+              <VideoCamera
+                size={20}
+                weight="bold"
+                style={{ marginRight: "0.5rem" }}
+              />{" "}
+              Add
+            </Link>
           </Title>
 
           <Search>
@@ -154,45 +162,70 @@ export function CreateSchedule() {
                 </tr>
               </thead>
               <tbody>
-                {filmes.map((video, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td onClick={() => activeModal(video)}>
-                      <img
-                        width={30}
-                        height={30}
-                        src={video.localizacao_thumb}
-                        alt=""
-                        style={{ marginRight: "0.5rem", cursor: "pointer" }}
-                      />
-                      {video.nome}
-                    </td>
-                    <td style={{ textAlign: "center" }}>
-                      {formatarTamanhoDoVideo(video.tamanho)}
-                    </td>
-                    <td style={{ textAlign: "center" }}>
-                      <span
-                        style={{
-                          background: "#e2e8f0",
-                          padding: "2px 5px",
-                          borderRadius: "4px",
-                        }}
-                      >
-                        {" "}
-                        {formatarTempoDeExecucao(video.duracao)}
-                      </span>
-                    </td>
-                    <td style={{ textAlign: "center" }}>{video.formato}</td>
-                    <td style={{ textAlign: "center" }}>
-                      <ButtonAddVideo
-                        title="Adicionar a programação"
-                        onClick={() => handleVideoSelect(video)}
-                      >
-                        <ArrowFatLinesRight size={25} />
-                      </ButtonAddVideo>
-                    </td>
-                  </tr>
-                ))}
+                {filmes.map((video, index) => {
+                  {
+                    /* let formatoIcone;
+              switch (filme.formato.toLocaleLowerCase()) {
+                case "mp4":
+                  formatoIcone = <img src="" alt="" />;
+                  break;
+                case "avi":
+                  formatoIcone =<img src="" alt="" />;
+                  break;
+                // Adicione mais casos para outros formatos, se necessário
+                default:
+                  formatoIcone = filme.formato.toLocaleLowerCase()
+                  break;
+              } */
+                  }
+
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td onClick={() => activeModal(video)}>
+                        <img
+                          width={30}
+                          height={30}
+                          src={video.localizacao_thumb}
+                          alt=""
+                          style={{ marginRight: "0.5rem", cursor: "pointer" }}
+                        />
+                        {video.nome}
+                      </td>
+                      <td style={{ textAlign: "center", fontSize:"0.75rem", color:"#6b7280" }}>
+                        {formatarTamanhoDoVideo(video.tamanho)}
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        <span
+                          style={{
+                            background: "#e2e8f0",
+                            padding: "2px 5px",
+                            borderRadius: "4px",
+                            color: "#074e8c",
+                          }}
+                        >
+                          {formatarTempoDeExecucao(video.duracao)}
+                        </span>
+                      </td>
+                      <td style={{ textAlign: "center" }}>
+                        {video.formato.toLocaleLowerCase()}
+                      </td>
+                      <td style={{ textAlign: "right" }}>
+                       <div style={{display:"flex"}}>
+                       <ButtonTask title="Remover da programação">
+                          <Trash size={23} />
+                        </ButtonTask>
+                        <ButtonAddVideo
+                          title="Adicionar a programação"
+                          onClick={() => handleVideoSelect(video)}
+                        >
+                          <ArrowFatLinesRight size={23} />
+                        </ButtonAddVideo>
+                       </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </Table>
           )}
