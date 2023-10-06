@@ -7,11 +7,10 @@ export const ContentModal = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
- strong{
+  strong {
     margin-bottom: 1rem;
- }
+  }
 `;
-
 export const Form = styled.form`
   width: 100%;
   display: flex;
@@ -28,15 +27,15 @@ export const Form = styled.form`
   label {
     width: 100%;
   }
-  button{
+  button {
     padding: 5px;
     border-radius: 4px;
     margin-top: 1rem;
-    background:${(props) => props.theme["blue"]};
+    background: ${(props) => props.theme["blue"]};
     border: 0;
     color: white;
-    &:hover{
-        background:${(props) => props.theme["blue-back"]}; 
+    &:hover {
+      background: ${(props) => props.theme["blue-back"]};
     }
   }
 `;

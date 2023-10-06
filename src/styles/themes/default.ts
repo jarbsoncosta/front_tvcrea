@@ -6,6 +6,7 @@ export const defaultTheme = {
   'blue-back': '#074e8c',
   'gray-500': "#6b7280",
   'yellow-200': '#fef08a',
+  'yellow-400':'#facc15',
   'green-700':'#15803d',
   'green-600':'#16a34a',
   'gray-100':'#f3f4f6',

@@ -27,7 +27,30 @@ display: flex;
 align-items: center;
 justify-content: center;
 margin-bottom: 0.5rem;
+`;
 
+export const InputPassword = styled.div`
+width: 100%;
+border: 1px solid ${(props) => props.theme['gray-300']};
+background: white;
+height: 2.5rem;
+padding: 0 .5rem;
+gap: 1rem;
+display: flex;
+align-items: center;
+border-radius: 5px;
+svg{
+  color: ${(props) => props.theme['gray-500']};
+  cursor: pointer;
+}
+input{
+  border: 0;
+  width: 100%;
+  height: 100%;
+  &:focus{
+    box-shadow: none;
+  }
+}
 `;
 
 export const InputField = styled.input`
@@ -39,20 +62,19 @@ font-size: 12px;
   margin-bottom: 10px;
   padding-left: 0.5rem;
   &:focus {
-    border-color:${(props) => props.theme['blue']}; /* Altere para a cor desejada quando o input estiver em foco */
-    outline: none; /* Remove o contorno padrão quando o input está em foco */
-    box-shadow: 0 0 5 ${(props) => props.theme['blue']} /* Adiciona uma sombra quando o input está em foco */
+   box-shadow: none;
   }
   &::placeholder{
     font-size: 12px;
   }
 `;
 
-export const SubmitButton = styled.button`
-  width: 100%;
+export const ButtonLogin = styled.button`
+  width: 100%;  
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   padding: 10px;
   background-color:${(props) => props.theme['blue']};;
   color: #fff;

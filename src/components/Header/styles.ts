@@ -8,7 +8,7 @@ export const HeaderContainer = styled.header`
   align-items: center;
   padding: 0.5rem 2rem 0.5rem 1rem;
   width: 100%;
-  height: 3rem;
+  height: 4rem;
   background: ${(props) => props.theme["blue"]};
   @media (max-width: 1024px) {
     justify-content: right;
@@ -20,7 +20,7 @@ export const DropdownContent = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 0.2rem;
-  border-radius: 4px;
+  border-radius: 4px; 
   a {
     background-color: #f1f1f1;
     display: flex;
@@ -39,12 +39,19 @@ export const DropdownContent = styled.div`
 `;
 export const ButtonDropdown = styled.button`
   background: transparent;
-  color: white;
+  color:${(props) => props.theme["yellow-400"]};
   display: flex;
   gap: 0.3rem;
   align-items: center;
   padding: 0.3rem 1rem;
   border: 0;
+  strong{
+    letter-spacing: 1px;
+    font-size: 1rem;
+    &:hover{
+      color:${(props) => props.theme["yellow-200"]};     
+    }
+  }
 `;
 export const ButtonOpenSidebar = styled.div`
   display: none;
