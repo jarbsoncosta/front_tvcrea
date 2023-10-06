@@ -1,7 +1,7 @@
 import { useAuth } from "../../context/authContext";
 import { useEffect, useRef, useState } from "react";
 import { ButtonDropdown, DropdownContent, HeaderContainer } from "./styles";
-import { User, DoorOpen, CaretDown, CaretUp } from "@phosphor-icons/react";
+import { User, DoorOpen, CaretDown, CaretUp, FilmReel } from "@phosphor-icons/react";
 import Logo from '../../assets/logo.png'
 
 export function Header() {
@@ -28,9 +28,10 @@ export function Header() {
 
   return (
     <HeaderContainer ref={dropdownRef}>
-      <img src={Logo} width={140} alt="logo" />
+     <a href="/programacao"> <img src={Logo} width={140} alt="logo" /></a>
       <div style={{ marginLeft: "2rem" }}>
         <ButtonDropdown onClick={toggleDropdown}>
+        <FilmReel size={25} weight="bold" />
           <strong>Programação</strong>{isOpen ? <CaretUp size={20} /> : <CaretDown size={20} />}{" "}
         </ButtonDropdown>
         {isOpen && (

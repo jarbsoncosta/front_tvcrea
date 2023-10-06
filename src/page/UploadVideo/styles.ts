@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 export const Container = styled.main`
   width: 100%;
   padding: 0 2rem;
-  height: 95vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
