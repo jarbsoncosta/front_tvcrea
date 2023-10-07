@@ -20,18 +20,18 @@ export const DropdownContent = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 0.2rem;
-  border-radius: 4px; 
+  border-radius: 4px;
   a {
     background-color: #f1f1f1;
     display: flex;
     width: 150px;
     text-decoration: none;
     padding: 0.5rem 1rem;
-    color:${(props) => props.theme["gray-500"]};
+    color: ${(props) => props.theme["gray-500"]};
     text-align: center;
     &:hover {
       background-color: ${(props) => props.theme["gray-200"]};
-      color:${(props) => props.theme["gray700"]};
+      color: ${(props) => props.theme["gray700"]};
     }
   }
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -39,17 +39,23 @@ export const DropdownContent = styled.div`
 `;
 export const ButtonDropdown = styled.button`
   background: transparent;
-  color:${(props) => props.theme["yellow-400"]};
+  color: ${(props) => props.theme["yellow-400"]};
   display: flex;
   gap: 0.3rem;
   align-items: center;
   padding: 0.3rem 1rem;
   border: 0;
-  strong{
+  strong {
     letter-spacing: 1px;
     font-size: 1rem;
-    &:hover{
-      color:${(props) => props.theme["yellow-200"]};     
+    &:hover {
+      color: ${(props) => props.theme["yellow-200"]};
+    }
+  }
+  &:hover {
+    color: ${(props) => props.theme["yellow-200"]};
+    svg {
+      color: ${(props) => props.theme["yellow-200"]};
     }
   }
 `;

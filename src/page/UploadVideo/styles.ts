@@ -103,18 +103,20 @@ export const ButtonToLoad = styled.button`
 `;
 
 export const Button= styled.button`
-  padding: 0.5rem 1.5rem;
+  padding: 0.7rem 1.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   border: 0;
-  border-radius: 5px;
-  background: ${(props) => props.theme["green-600"]};
+  border-radius: 4px;
+  background: ${(props) => props.theme["blue-back"]};
   color: ${(props) => props.theme["white"]};
+  border : 2px solid ${(props) => props.theme["blue"]};
+  font-weight: 600;
   cursor: pointer;
-  transition: 1ms;
+  transition: 1s;
   &:hover {
-    background-color: ${(props) => props.theme["green-700"]};
+    background-color: ${(props) => props.theme["blue"]};    
   }
   &:focus{
     box-shadow: none;
@@ -138,3 +140,4 @@ export const ButtonTrash = styled.div`
     }
   }
 `;
+
