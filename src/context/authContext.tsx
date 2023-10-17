@@ -41,7 +41,9 @@ import { api } from '../services/api'
       const token = localStorage.getItem('@crea:token')
       const user = localStorage.getItem('@crea:user')
   
+      console.log(token)
       if (token && user) {
+
         axios.defaults.headers.common.Authorization = `Bearer ${token}`
         return { token, username: JSON.parse(user) }
       }

@@ -16,7 +16,6 @@ import {
   ValidateVideo,
   VideoFile,
 } from "./styles";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { LoadingComponent } from "../Loading";
 import { Trash, Video } from "@phosphor-icons/react";
@@ -39,6 +38,7 @@ interface ResponseData {
 
 export function ComponentForm({ data }: any) {
   const { user } = useAuth();
+  console.log(data, "dados")
 
   //const fileName = data.filename !== null && data.filename;
   const [subject, setSubject] = useState("");
@@ -51,8 +51,10 @@ export function ComponentForm({ data }: any) {
     {} as ResponseData
   );
 
+  console.log(returnData)
   //função para pegar a url e armazenar em um state
   const [thumbnail, setThumbnail] = useState(null);
+
   const handleClick = (valorThumbnail) => {
     setThumbnail(valorThumbnail);
   };
@@ -71,17 +73,17 @@ export function ComponentForm({ data }: any) {
       observacao:observation,            
     }
     api.post(
-        `register`,
+        `check`,
         newData,
         {
           headers: {
             accept: "application/json",
+            Authorization: `Bearer ${user.token}`,
           },
         
         }
       )
       .then((response) => {
-        console.log(response.data); // Dados retornados pela API
         setLoading(false);
         setReturnData(response.data);
         //localStorage.removeItem('data')
@@ -99,9 +101,9 @@ export function ComponentForm({ data }: any) {
       setThumbnailError("Selecione uma imagem!");
       return;
     }
-    const data  = {
-      filename:returnData.name,
-      id:returnData.id,
+    const newData  = {
+      filename:data.filename,
+      id:data.id,
       thumb:thumbnail,
       subject:subject,      
       observacao:observation,
@@ -111,27 +113,28 @@ export function ComponentForm({ data }: any) {
       duration:returnData.duration
 
     }
-    console.log(data, "dados")
+    console.log(newData, "dados")
 
     setLoading(true);
-    const url = `http://10.10.0.22:8000/thumb`
-     axios.post(url,data,
+    //const url = `http://10.10.0.19:8000/arquivos/thumb`
+     api.post("/arquivos/thumb",newData,
       {
       headers: {
-        'accept': 'application/json'
+        'accept': 'application/json',
+        Authorization: `Bearer ${user.token}`,
       }
     })
       .then((response) => {
         console.log(response.data); // Dados retornados pela API
         setLoading(false);
         setReturnData(response.data);
-        
+               
         toast.success("Video enviado com sucesso !");
         setSubject("");
         setObservation("");
         setInterval(() => {
           localStorage.removeItem("data");
-          window.location.reload();
+         // window.location.reload();
         }, 2000);
       })
       .catch((error) => {
@@ -142,8 +145,7 @@ export function ComponentForm({ data }: any) {
   };
 
   function DeleteVideo() {
-    axios
-      .delete(`http://10.10.0.22:8000/delete/${data.id}`)
+    api.delete(`/arquivos/delete/${data.id}`)
       .then(() => {
         localStorage.removeItem("data");
         window.location.reload();

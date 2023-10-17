@@ -3,16 +3,17 @@ import { AxiosResponse } from "axios";
 import { RiVideoUploadLine } from "react-icons/ri";
 import { Button, Container, Content, File, Icon } from "./styles";
 import { toast } from "react-toastify";
-import { LoadingComponent } from "../../components/Loading";
 import { ComponentForm } from "../../components/ComponentForm";
 import { Header } from "../../components/Header";
 import { api } from "../../services/api";
 import { UploadSimple } from "@phosphor-icons/react";
+import { useAuth } from "../../context/authContext";
 
 export function UploadVideo() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setLoading] = useState(false);
 
+  const { user } = useAuth();
   const storedFile = localStorage.getItem("data");
   const result = JSON.parse(storedFile);
 
@@ -36,10 +37,11 @@ export function UploadVideo() {
     const formData = new FormData();
     formData.append("file", selectedFile);
     api
-      .post("upload", formData, {
+      .post("arquivos/upload", formData, {
         headers: {
           accept: "application/json",
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${user.token}`,
         },
       })
       .then((response: AxiosResponse) => {
@@ -75,7 +77,10 @@ export function UploadVideo() {
           )}
           <div style={{ marginTop: "2rem" }}>
             {isLoading && selectedFile ? (
-              <Button onClick={handleButtonClick}> Carregando...</Button>
+              <Button onClick={handleButtonClick}>
+                <UploadSimple size={32} weight="bold" />
+                CARREGANDO ...
+              </Button>
             ) : (
               !storedFile && (
                 <Button onClick={handleButtonClick}>
@@ -86,7 +91,7 @@ export function UploadVideo() {
                     onChange={handleFileChange}
                   />
                   <UploadSimple size={32} weight="bold" />
-                SELECIONE UM VIDEO
+                  SELECIONE UM VIDEO
                 </Button>
               )
             )}

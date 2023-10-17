@@ -54,7 +54,7 @@ export function Login() {
         if (!hasErrors) {
           try {
             await signIn({ username, password });
-            window.location.replace("/programacao");
+            window.location.replace("/cadastrar-video");
           } catch {
             toast.error("Usuário ou Senha incorretos!");
           }

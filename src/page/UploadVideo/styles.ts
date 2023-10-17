@@ -58,7 +58,7 @@ export const Content = styled.div`
   border: 5px dashed white;
   border-radius: 30px;
   padding: 0 0 2rem 0;
-  @media (max-width: 750px) {
+  @media (max-width: 1200px) {
     width: 100%;  
   }
 `;

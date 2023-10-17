@@ -6,9 +6,9 @@ export const HeaderContainer = styled.header`
   gap: 1rem;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 2rem 0.5rem 1rem;
+  padding: 0.5rem 2rem;
   width: 100%;
-  height: 4rem;
+  
   background: ${(props) => props.theme["blue"]};
   @media (max-width: 1024px) {
     justify-content: right;
