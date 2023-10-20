@@ -12,9 +12,9 @@ export function Router() {
   return (
     <Routes>
        <Route path="/" element={<Login />} />
-      <Route path="/cadastrar-video" element={<PrivateRoutes><UploadVideo /></PrivateRoutes>} />
-      <Route path="/criar-programacao" element={<PrivateRoutes><CreateSchedule /></PrivateRoutes>} />
-      <Route path="/programacao" element={<ListAllSchedule />} />
+      <Route path="/views/cadastrar_video" element={<PrivateRoutes><UploadVideo /></PrivateRoutes>} />
+      <Route path="/views/criar_programacao" element={<PrivateRoutes><CreateSchedule /></PrivateRoutes>} />
+     <Route path="/views/programacao" element={<PrivateRoutes><ListAllSchedule /></PrivateRoutes>} />
     </Routes>
   );
 }

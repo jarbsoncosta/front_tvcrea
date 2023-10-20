@@ -50,3 +50,28 @@ export const ButtonTask = styled.button`
     box-shadow: none;
   }
 `;
+
+export const DivButton = styled.div`
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  gap: 1rem;
+`;
+
+export const Time = styled.div`
+ display: flex;
+ justify-content: right;
+ gap: 1rem;
+ align-items: center;
+ width: 100%;
+ h2{
+  font-weight: bold;
+ }
+ h5{
+  font-weight: 600;
+  color: ${(props) => props.theme["gray700"]};
+ }
+ 
+ 
+`;

@@ -1,5 +1,12 @@
 
-export function formatarTempoDeExecucao(tempoTotalEmSegundos:number) {
+
+  export function formatarTempoDeExecucao(tempoTotalEmSegundos:any) {
+    // Verifica se tempoTotalEmSegundos é indefinido ou nulo
+    if (tempoTotalEmSegundos === undefined || tempoTotalEmSegundos === "None") {
+        // Retorna uma mensagem de erro ou um valor padrão, como '00:00:00'
+        return '00:00:00';
+    }
+
     const horas = Math.floor(tempoTotalEmSegundos / 3600);
     const minutos = Math.floor((tempoTotalEmSegundos % 3600) / 60);
     const segundos = Math.floor(tempoTotalEmSegundos % 60);
@@ -9,8 +16,4 @@ export function formatarTempoDeExecucao(tempoTotalEmSegundos:number) {
     const segundosFormatados = segundos.toString().padStart(2, '0');
   
     return `${horasFormatadas}:${minutosFormatados}:${segundosFormatados}`;
-  }  
-  // Exemplo de uso:
-  const tempoTotalEmSegundos = 3661; // Exemplo para 1 hora, 1 minuto e 1 segundo
-  const tempoFormatado = formatarTempoDeExecucao(tempoTotalEmSegundos);
-  console.log(tempoFormatado); // Saída: "01:01:01"
+}

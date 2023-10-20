@@ -28,7 +28,7 @@ export function Header() {
 
   return (
     <HeaderContainer ref={dropdownRef}>
-     <a href="/programacao"> <img src={Logo} width={140} alt="logo" /></a>
+     <a href="/views/programacao"> <img src={Logo} width={140} alt="logo" /></a>
       <div style={{ marginLeft: "2rem" }}>
         <ButtonDropdown onClick={toggleDropdown}>
         <FilmReel size={25} weight="bold" />
@@ -36,9 +36,9 @@ export function Header() {
         </ButtonDropdown>
         {isOpen && (
           <DropdownContent>
-            <a href="/cadastrar-video">Cadastrar video</a>
-            <a href="/criar-programacao">Criar programação</a>
-            <a href="/programacao">Listagem</a>
+            <a href="/views/cadastrar_video">Cadastrar video</a>
+            <a href="/views/criar_programacao">Criar programação</a>
+            <a href="/views/programacao">Listagem</a>
           </DropdownContent>
         )}
       </div>

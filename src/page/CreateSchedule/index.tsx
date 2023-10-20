@@ -11,16 +11,24 @@ import {
   Search,
   Table,
   Title,
+  Validate,
 } from "./styles";
 import { Header } from "../../components/Header";
-import { Pagination } from "react-bootstrap";
-import axios from "axios";
+import { Pagination, Spinner } from "react-bootstrap";
 import { formatarTamanhoDoVideo } from "../../utils/formatSizeVideo";
 import { formatarTempoDeExecucao } from "../../utils/formatVideoLength";
 import { ComponentSchedule } from "./Components/ComponentSchedule";
-import Img from "../../assets/download.jpg";
-import { ArrowFatLinesRight, Trash, VideoCamera } from "@phosphor-icons/react";
+import {
+  ArrowFatLinesRight,
+  CheckCircle,
+  MonitorPlay,
+  Trash,
+  Video,
+  VideoCamera,
+} from "@phosphor-icons/react";
 import { ModalContent } from "../../components/Modal";
+import { api } from "../../services/api";
+import { useAuth } from "../../context/authContext";
 
 interface Filmes {
   id: number;
@@ -40,66 +48,66 @@ interface Filmes {
   status: boolean;
 }
 
-const filmes: Filmes[] = [
-  {
-    id: 1,
-    id_operador: 1,
-    nome: "Certificado Crea",
-    formato: "MP4",
-    tamanho: 1024, // tamanho em bytes
-    assunto: "Ação",
-    observacao: "Descrição do filme 1",
-    localizacao_video: "/caminho/para/filme1.mp4",
-    localizacao_thumb: Img,
-    data_insercao: "2023-09-26",
-    data_ultima_utilizacao: "2023-09-26",
-    duracao: 13500, // duração em segundos
-    videoId: "12345",
-    erros: "Nenhum erro",
-    status: true,
-  },
-  {
-    id: 2,
-    id_operador: 2,
-    nome: "Capacita Crea Mossoró",
-    formato: "AVI",
-    tamanho: 2048, // tamanho em bytes
-    assunto: "Comédia",
-    observacao: "Descrição do filme 2",
-    localizacao_video: "/caminho/para/filme2.avi",
-    localizacao_thumb: Img,
-    data_insercao: "2023-09-26",
-    data_ultima_utilizacao: "2023-09-26",
-    duracao: 95, // duração em segundos
-    videoId: "67890",
-    erros: "Alguns erros",
-    status: false,
-  },
-  // Adicione mais objetos conforme necessário
-];
-
 export function CreateSchedule() {
+  const { user } = useAuth();
   const [list, setList] = useState<Filmes[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
 
+  console.log(list)
+
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedVideos, setSelectedVideos] = useState<Filmes[]>([]);
 
   const handleVideoSelect = (video: any) => {
     setSelectedVideos((prevSelected) => [...prevSelected, video]);
   };
 
+  //DELETAR UM VIDEO
+  function DeleteVideo(video) {
+    const confirmDelete = window.confirm(
+      `Deseja realmente excluir o video ${video.nome} ?`
+    );
+
+    if (confirmDelete) {
+      api
+        .delete(`/arquivos/delete/${video.id}`, {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+        .then(() => {
+          fetchVideoList();
+        })
+        .catch((error) => {
+          console.error("Ocorreu um erro:", error);
+        });
+    } else {
+      console.log("Exclusão cancelada pelo usuário.");
+    }
+  }
+
+  //UseEffect que executa a cada 30segundo a consulta
   useEffect(() => {
-    fetchVideoList();
+    const fetchData = async () => {
+      await fetchVideoList();
+    };
+    fetchData(); // Executa a função imediatamente
+    const interval = setInterval(() => {
+      fetchData(); // Executa a função a cada 30 segundos
+    }, 30000);
+    // Limpa o intervalo quando o componente é desmontado ou quando currentPage ou searchTerm mudam
+    return () => clearInterval(interval);
   }, [currentPage, searchTerm]);
 
   const fetchVideoList = () => {
-    axios
-      .get(
-        `http://10.10.0.22:8000/vlist?page=${
-          currentPage - 1
-        }&search=${searchTerm}`
-      )
+    api
+      .get(`/vlist/?skip=${currentPage - 1}&limit=${10}&search=${searchTerm}`, {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
       .then((response) => {
         setList(response.data);
       })
@@ -130,15 +138,24 @@ export function CreateSchedule() {
       <Content>
         <ContentCard>
           <Title>
-            <h5>Lista de videos</h5>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+              }}
+            >
+              <Video color="#074e8c" weight="bold" size={35} />
+              <h5>Lista de videos</h5>
+            </div>
 
-            <Link to="/cadastrar-video">
+            <Link to="/views/cadastrar_video">
               <VideoCamera
                 size={20}
                 weight="bold"
                 style={{ marginRight: "0.5rem" }}
               />{" "}
-              Add
+              Novo Video
             </Link>
           </Title>
 
@@ -150,7 +167,7 @@ export function CreateSchedule() {
               onChange={handleSearchChange}
             />
           </Search>
-          {filmes.length > 0 && (
+          {list.length > 0 && (
             <Table>
               <thead>
                 <tr>
@@ -158,27 +175,11 @@ export function CreateSchedule() {
                   <th>Nome</th>
                   <th>Tamanho</th>
                   <th>Duração</th>
-                  <th>Formato</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
-                {filmes.map((video, index) => {
-                  {
-                    /* let formatoIcone;
-              switch (filme.formato.toLocaleLowerCase()) {
-                case "mp4":
-                  formatoIcone = <img src="" alt="" />;
-                  break;
-                case "avi":
-                  formatoIcone =<img src="" alt="" />;
-                  break;
-                // Adicione mais casos para outros formatos, se necessário
-                default:
-                  formatoIcone = filme.formato.toLocaleLowerCase()
-                  break;
-              } */
-                  }
-
+                {list.map((video, index) => {
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
@@ -192,7 +193,13 @@ export function CreateSchedule() {
                         />
                         {video.nome}
                       </td>
-                      <td style={{ textAlign: "center", fontSize:"0.75rem", color:"#6b7280" }}>
+                      <td
+                        style={{
+                          textAlign: "center",
+                          fontSize: "0.75rem",
+                          color: "#6b7280",
+                        }}
+                      >
                         {formatarTamanhoDoVideo(video.tamanho)}
                       </td>
                       <td style={{ textAlign: "center" }}>
@@ -207,21 +214,42 @@ export function CreateSchedule() {
                           {formatarTempoDeExecucao(video.duracao)}
                         </span>
                       </td>
-                      <td style={{ textAlign: "center" }}>
-                        {video.formato.toLocaleLowerCase()}
+
+                      <td
+                        style={{ textAlign: "center", width: "200px" }}
+                        align="center"
+                      >
+                        {video.status === false ? (
+                          <Validate>
+                            <span> Proces...</span>
+                            <Spinner
+                              style={{ width: "17px", height: "17px" }}
+                              animation="border"
+                              variant="primary"
+                            />
+                          </Validate>
+                        ) : (
+                          <CheckCircle color="#16a34a" size={30} />
+                        )}
                       </td>
                       <td style={{ textAlign: "right" }}>
-                       <div style={{display:"flex"}}>
-                       <ButtonTask title="Remover da programação">
-                          <Trash size={23} />
-                        </ButtonTask>
-                        <ButtonAddVideo
-                          title="Adicionar a programação"
-                          onClick={() => handleVideoSelect(video)}
-                        >
-                          <ArrowFatLinesRight size={23} />
-                        </ButtonAddVideo>
-                       </div>
+                        <div style={{ display: "flex" }}>
+                          <ButtonTask
+                            title="Remover da programação"
+                            onClick={() => {
+                              DeleteVideo(video);
+                            }}
+                          >
+                            <Trash size={23} />
+                          </ButtonTask>
+                          <ButtonAddVideo
+                            title="Adicionar a programação"
+                            onClick={() => handleVideoSelect(video)}
+                            disabled={video.status === false}
+                          >
+                            <ArrowFatLinesRight size={23} />
+                          </ButtonAddVideo>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -234,7 +262,7 @@ export function CreateSchedule() {
             onHide={() => setModalShow(false)}
             data={data}
           />
-          {list.length >= 25 && (
+          {list.length > 10 && (
             <ContentPaginate>
               {/* Componente de paginação */}
               <Pagination>
@@ -253,7 +281,16 @@ export function CreateSchedule() {
         </ContentCard>
         <ContentCard>
           <Title>
-            <h5>Programação</h5>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+              }}
+            >
+              <MonitorPlay size={35} color="#074e8c" weight="bold" />
+              <h5>Programação</h5>
+            </div>
           </Title>
 
           <ComponentSchedule

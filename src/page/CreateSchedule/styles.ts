@@ -8,7 +8,6 @@ export const Container = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
 `;
 export const Title = styled.div`
   padding: 1rem 0;
@@ -29,12 +28,12 @@ export const ContentCard = styled.div`
   padding: 2rem;
   border-radius: 4px;
   @media (max-width: 750px) {
-    width: 100%;  
+    width: 100%;
   }
 `;
 
 export const Link = styled(NavLink)`
-  padding: 0 1rem;
+  padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
   border-radius: 4px;
@@ -42,7 +41,7 @@ export const Link = styled(NavLink)`
   background-color: ${(props) => props.theme["blue"]};
   text-decoration: none;
   transition: 1s;
-  &:hover{
+  &:hover {
     background-color: ${(props) => props.theme["blue-back"]};
   }
 `;
@@ -57,7 +56,6 @@ export const Content = styled.div`
   padding: 5rem 0;
   @media (max-width: 750px) {
     width: 100%;
-    
   }
 `;
 export const Search = styled.div`
@@ -68,20 +66,13 @@ export const Search = styled.div`
   gap: 0.5rem;
 `;
 export const Input = styled.input`
+  display: flex;
+  align-items: center;
   width: 100%;
-  border-radius: 5px;
-  height: 2rem;
-  border: 1px solid ${(props) => props.theme["gray-300"]};
-
-  &:focus {
-    border: 0;
-    outline: none;
-    padding-left: 10px; /* Espaçamento do ponteiro em foco */
-  }
-  &::placeholder {
-    padding: 0 10px;
-    font-size: 0.75rem;
-  }
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid ${(props) => props.theme["gray-400"]};
 `;
 export const Table = styled.table`
   margin-top: 1rem;
@@ -131,18 +122,33 @@ export const ButtonAddVideo = styled.button`
     background-color: #bfdbfe;
     box-shadow: none;
   }
+  &:disabled {
+    cursor: not-allowed;
+    &:hover {
+      background-color: ${(props) => props.theme["gray-200"]};
+      box-shadow: none;
+    }
+  }
+`;
+
+export const Validate = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.875rem;
 `;
 
 export const ButtonTask = styled.button`
-display: flex;
-background-color:transparent;
-border: 0;
-color:${(props) => props.theme["red-500"]};
-border-radius: 100%;
-box-shadow: none;
-padding: 5px;
-&:hover{
- background-color:${(props) => props.theme["red-200"]};
- box-shadow: none;
-}
+  display: flex;
+  background-color: transparent;
+  border: 0;
+  color: ${(props) => props.theme["red-500"]};
+  border-radius: 100%;
+  box-shadow: none;
+  padding: 5px;
+  &:hover {
+    background-color: ${(props) => props.theme["red-200"]};
+    box-shadow: none;
+  }
 `;

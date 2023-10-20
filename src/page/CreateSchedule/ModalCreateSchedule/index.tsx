@@ -1,17 +1,14 @@
 import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ContentModal, Form } from "./styles";
 import { X } from "@phosphor-icons/react";
-import { formatarData } from "../../../utils/formatDate";
 import { toast } from "react-toastify";
-import { pt } from 'date-fns/locale';
+import { useAuth } from "../../../context/authContext";
+import { api } from "../../../services/api";
 
 export function ModalCreateSchedule(props) {
-  const [dateTime, setDateTime] = useState(new Date());
-
-  const dataProgramacao = formatarData(dateTime);
+  const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [erroTitle, setErroTitle] = useState("");
 
@@ -21,33 +18,37 @@ export function ModalCreateSchedule(props) {
     props.close();
   }
 
-  const handleDateTimeChange = (newDateTime) => {
-    // Verificar se a nova data e hora são maiores ou iguais à data e hora atuais
-    if (newDateTime >= new Date()) {
-      setDateTime(newDateTime);
-    } else {
-      toast.warning("Data selecionada não está disponivel.");
-    }
-  };
   const handleTitleChange = (event) => {
     setTitle(event);
   };
-  // Função chamada ao clicar no botão de envio
+  // Função para enviar programação para o banco
   function handleSubmit(event) {
     event.preventDefault();
     if (!title) {
       setErroTitle("Título é obrigatorio");
-    } else if (dateTime < new Date()) {
-      toast.warning("Data selecionada não está disponivel.");
     } else {
+      const newDate = props.data.map((item) => item.id);
+
       const data = {
-        title,
-        listVideos: props.data,
-        dataProgramacao,
+        nome: title,
+        sequencia: newDate,
+        id_operador: user.id,
+        duracao: props.duracaoTotal,
       };
-      console.log(data);
-      toast.success("Programação enviada com sucesso!");
-      resetStates();
+      api
+        .post("programacao/criar", data, {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+        .then(() => {
+          toast.success("Programação enviada com sucesso!");
+          resetStates();
+        })
+        .catch((error) => {
+          console.error("Ocorreu um erro:", error);
+        });
     }
   }
 
@@ -69,16 +70,6 @@ export function ModalCreateSchedule(props) {
             Enviar lista para reprodução
           </strong>
           <Form onSubmit={handleSubmit}>
-            <label>Selecione uma Data e Hora (Exibir a programação)</label>
-            <DatePicker
-              className="datepicker-wrapper"
-              selected={dateTime}
-              onChange={handleDateTimeChange}
-              showTimeSelect
-              dateFormat="dd/MM/yyyy HH:mm"
-              timeFormat="HH:mm"
-              locale={pt} // Configuração para o idioma português
-            />
             <label>Título</label>
             <input
               type="text"

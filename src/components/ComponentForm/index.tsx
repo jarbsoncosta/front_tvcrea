@@ -25,7 +25,7 @@ import { useAuth } from "../../context/authContext";
 import { api } from "../../services/api";
 
 interface ResponseData {
-  id:number;
+  id: number;
   duration: number;
   file_size: number;
   status: true;
@@ -38,9 +38,6 @@ interface ResponseData {
 
 export function ComponentForm({ data }: any) {
   const { user } = useAuth();
-  console.log(data, "dados")
-
-  //const fileName = data.filename !== null && data.filename;
   const [subject, setSubject] = useState("");
   const [observation, setObservation] = useState("");
   const [status, setStatus] = useState(true);
@@ -51,8 +48,6 @@ export function ComponentForm({ data }: any) {
     {} as ResponseData
   );
 
-  console.log(returnData)
-  //função para pegar a url e armazenar em um state
   const [thumbnail, setThumbnail] = useState(null);
 
   const handleClick = (valorThumbnail) => {
@@ -61,32 +56,28 @@ export function ComponentForm({ data }: any) {
   const handleCheckStatusFalse = () => {
     setStatus(!status);
   };
-  //Função para enviar para banco
+  //Função para validar e converter antes de enviar para o banco
   const verificarValidadeVideoPOST = (e: any) => {
     e.preventDefault();
     setLoading(true);
     const newData = {
-      filename:data.filename,
-      id:data.id,
-      status:status,
-      subject:subject,      
-      observacao:observation,            
-    }
-    api.post(
-        `check`,
-        newData,
-        {
-          headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        
-        }
-      )
+      filename: data.filename,
+      id: data.id,
+      status: status,
+      subject: subject,
+      observacao: observation,
+    };
+    api
+      .post(`check`, newData, {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
       .then((response) => {
         setLoading(false);
         setReturnData(response.data);
-        //localStorage.removeItem('data')
+        localStorage.removeItem("data");
       })
       .catch((error) => {
         setLoading(false);
@@ -94,6 +85,7 @@ export function ComponentForm({ data }: any) {
       });
   };
 
+  // Função que injeta o video no banco de dados
   const salvarVideoNoBanco = (e: any) => {
     e.preventDefault();
 
@@ -101,58 +93,61 @@ export function ComponentForm({ data }: any) {
       setThumbnailError("Selecione uma imagem!");
       return;
     }
-    const newData  = {
-      filename:data.filename,
-      id:data.id,
-      thumb:thumbnail,
-      subject:subject,      
-      observacao:observation,
-      operador:user.username,
-      status:status,
-      file_size:returnData.file_size,
-      duration:returnData.duration
-
-    }
-    console.log(newData, "dados")
+    const newData = {
+      filename: data.filename,
+      id: data.id,
+      thumb: thumbnail,
+      subject: subject,
+      observacao: observation,
+      operador: user.username,
+      status: status,
+      file_size: returnData.file_size,
+      duration: returnData.duration,
+    };
 
     setLoading(true);
-    //const url = `http://10.10.0.19:8000/arquivos/thumb`
-     api.post("/arquivos/thumb",newData,
-      {
-      headers: {
-        'accept': 'application/json',
-        Authorization: `Bearer ${user.token}`,
-      }
-    })
+    api
+      .post("/arquivos/thumb", newData, {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
       .then((response) => {
-        console.log(response.data); // Dados retornados pela API
         setLoading(false);
         setReturnData(response.data);
-               
         toast.success("Video enviado com sucesso !");
         setSubject("");
         setObservation("");
         setInterval(() => {
           localStorage.removeItem("data");
-         // window.location.reload();
+          window.location.reload();
         }, 2000);
       })
       .catch((error) => {
         setLoading(false);
         console.error("Ocorreu um erro:", error);
-      });  
-
+      });
   };
 
+  //Deelet
   function DeleteVideo() {
-    api.delete(`/arquivos/delete/${data.id}`)
-      .then(() => {
-        localStorage.removeItem("data");
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error("Ocorreu um erro:", error);
-      });
+    localStorage.removeItem("data");
+    window.location.reload();
+    // api
+    //   .delete(`/arquivos/delete/${data.id}`, {
+    //     headers: {
+    //       accept: "application/json",
+    //       Authorization: `Bearer ${user.token}`,
+    //     },
+    //   })
+    //   .then(() => {
+    //     localStorage.removeItem("data");
+    //     window.location.reload();
+    //   })
+    //   .catch((error) => {
+    //     console.error("Ocorreu um erro:", error);
+    //   });
   }
 
   return (
@@ -211,12 +206,12 @@ export function ComponentForm({ data }: any) {
                 </strong>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <FormLabel>Assunto:</FormLabel>
+                <FormLabel>Título:</FormLabel>
                 <FormInput
                   type="text"
                   name="assunto"
                   value={subject}
-                  placeholder="Assunto relacionado ao video"
+                  placeholder="Título do video"
                   onChange={(e) => {
                     setSubject(e.target.value);
                   }}

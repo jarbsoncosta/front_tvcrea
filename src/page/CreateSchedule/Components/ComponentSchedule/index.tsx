@@ -1,15 +1,36 @@
-// Importação de componentes e estilos necessários
 import { Trash, Upload } from "@phosphor-icons/react"; // Ícone da lixeira
 import { formatarTamanhoDoVideo } from "../../../../utils/formatSizeVideo"; // Função para formatar tamanho do vídeo
 import { formatarTempoDeExecucao } from "../../../../utils/formatVideoLength"; // Função para formatar tempo de execução do vídeo
-import { ButtonTask, Container, DivButtonSubmit, SubmittButton } from "./style"; // Estilos importados
-import { useState } from "react";
+import {
+  ButtonTask,
+  Container,
+  DivButtonSubmit,
+  SubmittButton,
+  Time,
+} from "./style"; // Estilos importados
+import { useEffect, useState } from "react";
 import { Table } from "../../styles";
 import { ModalCreateSchedule } from "../../ModalCreateSchedule";
 
 // Definição do componente ComponentSchedule
 export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
   const [draggedIndex, setDraggedIndex] = useState(null);
+
+  //Somando duração total da programação
+  const [duracaoTotal, setDuracaoTotal] = useState(0);
+  useEffect(() => {
+    // Calcula a duração total quando o estado dos vídeos é alterado
+    const novaDuracaoTotal = selectedVideos.reduce((total, video) => {
+      // Verifica se a duração é um número válido antes de adicionar ao total
+      const duracaoNumerica = parseFloat(video.duracao);
+      if (!isNaN(duracaoNumerica) && duracaoNumerica > 0) {
+        return total + duracaoNumerica;
+      }
+      return total;
+    }, 0);
+
+    setDuracaoTotal(novaDuracaoTotal);
+  }, [selectedVideos]); // Executa o efeito sempre que o estado dos vídeos é alterado
 
   const handleDragStart = (e, index) => {
     setDraggedIndex(index);
@@ -59,92 +80,87 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
   // Renderização do componente
   return (
     <Container>
-      {/* Verifica se há vídeos na lista */}
-      <div>
-        <Table>
-          <thead>
-            <tr>
-              <th>Nº</th>
-              <th style={{ textAlign: "center" }}>Nome</th>
-              <th>Tamanho</th>
-              <th>Duração</th>
-              <th>Formato</th>
-            </tr>
-          </thead>
-          <tbody>
-            {selectedVideos.map((filme, index) => {
-              {
-                /* let formatoIcone;
-              switch (filme.formato.toLocaleLowerCase()) {
-                case "mp4":
-                  formatoIcone = <img src="" alt="" />;
-                  break;
-                case "avi":
-                  formatoIcone =<img src="" alt="" />;
-                  break;
-                // Adicione mais casos para outros formatos, se necessário
-                default:
-                  formatoIcone = filme.formato.toLocaleLowerCase()
-                  break;
-              } */
-              }
-              return (
-                <tr
-                  key={index}
-                  title="Arraste e solte para mudar a ordem de reprodução video"
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, index)}
-                  onDragOver={(e) => handleDragOver(e, index)}
-                  onDrop={(e) => handleDrop(e, index)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <td>{index + 1}</td>
-                  <td
-                    style={{
-                      borderRadius: "5px 0 0 5px",
-                    }}
+      <Time>
+        <h5>Duração </h5>
+        <h2>{formatarTempoDeExecucao(duracaoTotal)}</h2>
+      </Time>
+
+      {selectedVideos.length > 0 && (
+        <div>
+          <Table>
+            <thead>
+              <tr>
+                <th>Nº</th>
+                <th style={{ textAlign: "center" }}>Nome</th>
+                <th>Tamanho</th>
+                <th>Duração</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedVideos.map((filme, index) => {
+                return (
+                  <tr
+                    key={index}
+                    title="Arraste e solte para mudar a ordem de reprodução video"
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, index)}
+                    onDragOver={(e) => handleDragOver(e, index)}
+                    onDrop={(e) => handleDrop(e, index)}
+                    style={{ cursor: "pointer" }}
                   >
-                    <img
-                      width={30}
-                      height={30}
-                      src={filme.localizacao_thumb}
-                      alt=""
-                      style={{ marginRight: "0.5rem" }}
-                    />
-                    {filme.nome}
-                  </td>
-                  <td style={{ textAlign: "center", fontSize:"0.75rem", color:"#6b7280" }}>
-                    {formatarTamanhoDoVideo(filme.tamanho)}
-                  </td>
-                  <td style={{ textAlign: "center" }}>
-                    <span
+                    <td>{index + 1}</td>
+                    <td
                       style={{
-                        background: "#e2e8f0",
-                        padding: "2px 5px",
-                        borderRadius: "4px",
-                        color: "#074e8c",
+                        borderRadius: "5px 0 0 5px",
                       }}
                     >
-                      {formatarTempoDeExecucao(filme.duracao)}
-                    </span>
-                  </td>
-                  <td style={{ textAlign: "center" }}>
-                    {filme.formato.toLocaleLowerCase()}
-                  </td>
-                  <td>
-                    <ButtonTask
-                      title="Remover da programação"
-                      onClick={() => removerFilme(index)}
+                      <img
+                        width={30}
+                        height={30}
+                        src={filme.localizacao_thumb}
+                        alt=""
+                        style={{ marginRight: "0.5rem" }}
+                      />
+                      {filme.nome}
+                    </td>
+                    <td
+                      style={{
+                        textAlign: "center",
+                        fontSize: "0.75rem",
+                        color: "#6b7280",
+                      }}
                     >
-                      <Trash size={23} />
-                    </ButtonTask>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
-      </div>
+                      {formatarTamanhoDoVideo(filme.tamanho)}
+                    </td>
+                    <td style={{ textAlign: "center" }}>
+                      <span
+                        style={{
+                          background: "#e2e8f0",
+                          padding: "2px 5px",
+                          borderRadius: "4px",
+                          color: "#074e8c",
+                        }}
+                      >
+                        {formatarTempoDeExecucao(filme.duracao)}
+                      </span>
+                    </td>
+
+                    <td>
+                      <ButtonTask
+                        title="Remover da programação"
+                        onClick={() => removerFilme(index)}
+                      >
+                        <Trash size={23} />
+                      </ButtonTask>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
+      )}
+
       {selectedVideos.length > 0 && (
         <DivButtonSubmit>
           {/* Botão de envio */}
@@ -159,6 +175,7 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
         close={setModalShow}
         data={selectedVideos}
         setSelectedVideos={setSelectedVideos}
+        duracaoTotal={duracaoTotal}
       />
     </Container>
   );
