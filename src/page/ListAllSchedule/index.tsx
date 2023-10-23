@@ -4,10 +4,12 @@ import {
   CaretRight,
   ClipboardText,
   Clock,
+  Queue,
 } from "@phosphor-icons/react";
 import { Header } from "../../components/Header";
 import {
   ButtonAgendarProgramacao,
+  ButtonCriarProgramacao,
   ButtonListarProgramacao,
   Container,
   Content,
@@ -110,15 +112,13 @@ export function ListAllSchedule() {
     fetchVideoList();
   }, [currentPage, searchTerm]);
 
-
-    //Abrir Modal Imagem do video
-    const [modalShowThumb, setModalShowThumb] = useState(false);
-    const [thumb, setThumb] = useState("");
-    function activeModalThumb(data) {
-      setModalShowThumb(true);
-      setThumb(data)
-      
-    }
+  //Abrir Modal Imagem do video
+  const [modalShowThumb, setModalShowThumb] = useState(false);
+  const [thumb, setThumb] = useState("");
+  function activeModalThumb(data) {
+    setModalShowThumb(true);
+    setThumb(data);
+  }
 
   return (
     <>
@@ -136,6 +136,10 @@ export function ListAllSchedule() {
               <ClipboardText size={35} color="#074e8c" weight="bold" />
               <h5>Lista de programação</h5>
             </div>
+
+            <ButtonCriarProgramacao to="/views/criar_programacao">
+              <Queue size={25} weight="bold" /> Criar Programação
+            </ButtonCriarProgramacao>
           </Title>
           <div
             style={{
@@ -237,7 +241,11 @@ export function ListAllSchedule() {
                             <Video key={index}>
                               <li>
                                 <img
-                                  style={{ width: "35px", height: "35px",cursor:"pointer" }}
+                                  style={{
+                                    width: "35px",
+                                    height: "35px",
+                                    cursor: "pointer",
+                                  }}
                                   src={video.thumb}
                                   alt=""
                                   onClick={() => activeModalThumb(video.thumb)}

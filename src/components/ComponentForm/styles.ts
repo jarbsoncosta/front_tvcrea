@@ -9,7 +9,7 @@ export const Container = styled.div`
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 22rem;
+  width: 30rem;
   margin: 3rem auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -141,7 +141,7 @@ export const VideoFile = styled.div`
     justify-content: space-between;
     gap: 1rem;
     border-radius: 5px;
-    padding: 0.4rem 1rem;
+    padding: 0.5rem 1rem;
     display: flex;
     background: ${(props) => props.theme["gray-200"]};
   }

@@ -55,7 +55,7 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 5px dashed white;
+  //border: 5px dashed white;
   border-radius: 30px;
   padding: 0 0 2rem 0;
   @media (max-width: 1200px) {

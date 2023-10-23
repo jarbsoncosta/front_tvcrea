@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Circle } from "@phosphor-icons/react";
+import {NavLink} from 'react-router-dom'
 
 export const IconVideoCamara = styled(Circle)`
   border: 2px solid #65a30d;
@@ -27,6 +28,23 @@ export const Container = styled.div`
   align-items: center;
   padding: 2rem 1rem;
   background: ${(props) => props.theme["gray700"]};
+`;
+
+export const ButtonCriarProgramacao = styled(NavLink)`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 0.5rem;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  border: 0;
+  color: ${(props) => props.theme["white"]};
+  background-color: ${(props) => props.theme["blue"]};
+  &:hover {
+    background-color: ${(props) => props.theme["blue-back"]};
+   
+  }
+  
 `;
 
 export const Item = styled.button`

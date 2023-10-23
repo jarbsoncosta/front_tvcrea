@@ -159,7 +159,7 @@ export function ComponentForm({ data }: any) {
         <VideoFile>
           {!returnData.name ? (
             <strong>
-              <Video color="#1d4ed8" size={25} /> {data.filename}
+              <Video color="#1d4ed8" size={40} /> {data.filename}
               <Trash
                 size={25}
                 style={{ cursor: "pointer" }}
