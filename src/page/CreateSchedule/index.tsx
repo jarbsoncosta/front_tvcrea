@@ -30,6 +30,7 @@ import { ModalContent } from "../../components/Modal";
 import { api } from "../../services/api";
 import { useAuth } from "../../context/authContext";
 
+
 interface Filmes {
   id: number;
   id_operador: number;
@@ -53,7 +54,6 @@ export function CreateSchedule() {
   const [list, setList] = useState<Filmes[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  console.log(list)
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedVideos, setSelectedVideos] = useState<Filmes[]>([]);
@@ -183,7 +183,7 @@ export function CreateSchedule() {
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td onClick={() => activeModal(video)}>
+                      <td style={{width:200}} onClick={() => activeModal(video)}>
                         <img
                           width={30}
                           height={30}
@@ -198,11 +198,12 @@ export function CreateSchedule() {
                           textAlign: "center",
                           fontSize: "0.75rem",
                           color: "#6b7280",
+                          width:100
                         }}
                       >
                         {formatarTamanhoDoVideo(video.tamanho)}
                       </td>
-                      <td style={{ textAlign: "center" }}>
+                      <td style={{ textAlign: "center", width:100 }}>
                         <span
                           style={{
                             background: "#e2e8f0",
@@ -262,7 +263,7 @@ export function CreateSchedule() {
             onHide={() => setModalShow(false)}
             data={data}
           />
-          {list.length > 10 && (
+         
             <ContentPaginate>
               {/* Componente de paginação */}
               <Pagination>
@@ -273,11 +274,11 @@ export function CreateSchedule() {
                 <Pagination.Item active>{currentPage}</Pagination.Item>
                 <Pagination.Next
                   onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={list.length === 0} // Desabilitar o botão "Next" quando não houver mais itens.
+                  disabled={list.length <= 10} // Desabilitar o botão "Next" quando não houver mais itens.
                 />
               </Pagination>
             </ContentPaginate>
-          )}
+        
         </ContentCard>
         <ContentCard>
           <Title>

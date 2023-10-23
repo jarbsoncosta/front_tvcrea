@@ -10,6 +10,11 @@ import { api } from "../../../../services/api";
 import { pt } from "date-fns/locale";
 import { formatarTempoDeExecucao } from "../../../../utils/formatVideoLength";
 
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+
 export function ModalCriarAgendamento(props) {
   const { user } = useAuth();
   function resetStates() {
@@ -76,7 +81,7 @@ export function ModalCriarAgendamento(props) {
             </span>
           </div>
           <Form onSubmit={handleSubmit}>
-            <label>Título</label>
+            <label>Selecione uma data e hora</label>
             <DatePicker
               className="datepicker-wrapper"
               selected={dateTime}
@@ -88,6 +93,8 @@ export function ModalCriarAgendamento(props) {
             />
             <button type="submit">Salvar</button>
           </Form>
+
+          
         </ContentModal>
       </Modal.Body>
     </Modal>

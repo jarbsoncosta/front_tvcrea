@@ -63,7 +63,7 @@ export const Title = styled.div`
   justify-content: space-between;
   h5 {
     font-weight: 600;
-    color: ${(props) => props.theme["gray700"]};
+    color: ${(props) => props.theme["gray-500"]};
   }
   button {
     padding: 0 1rem;

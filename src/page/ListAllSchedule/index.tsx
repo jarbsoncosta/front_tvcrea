@@ -30,6 +30,7 @@ import { formatarTempoDeExecucao } from "../../utils/formatVideoLength";
 import { ModalCriarAgendamento } from "./components/ModalAgendamento";
 import { ModalListarAgendamentoId } from "./components/ModalListarAgendamentoId";
 import ImgTeste from "../../assets/download.jpg";
+import { ModalContent } from "../../components/Modal";
 export function ListAllSchedule() {
   const [showTable, setShowTable] = useState(null);
 
@@ -51,6 +52,7 @@ export function ListAllSchedule() {
       {
         nome: string;
         duracao: number;
+        thumb: string;
       }
     ];
   }
@@ -76,9 +78,7 @@ export function ListAllSchedule() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [list, setList] = useState<Programacao[]>([]);
-
   console.log(list);
-
   const fetchVideoList = () => {
     api
       .get(
@@ -95,7 +95,6 @@ export function ListAllSchedule() {
       )
       .then((response) => {
         setList(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("Erro carregar listagem:", error);
@@ -107,10 +106,19 @@ export function ListAllSchedule() {
   const handleSearchChange = (event: any) => {
     setSearchTerm(event.target.value);
   };
-
   useEffect(() => {
     fetchVideoList();
   }, [currentPage, searchTerm]);
+
+
+    //Abrir Modal Imagem do video
+    const [modalShowThumb, setModalShowThumb] = useState(false);
+    const [thumb, setThumb] = useState("");
+    function activeModalThumb(data) {
+      setModalShowThumb(true);
+      setThumb(data)
+      
+    }
 
   return (
     <>
@@ -126,7 +134,7 @@ export function ListAllSchedule() {
               }}
             >
               <ClipboardText size={35} color="#074e8c" weight="bold" />
-              <h5>Lista de programação</h5>{" "}
+              <h5>Lista de programação</h5>
             </div>
           </Title>
           <div
@@ -154,7 +162,7 @@ export function ListAllSchedule() {
             </div>
           ) : (
             <>
-              {list.map((item, index) => {
+              {list.map((item) => {
                 const play = item.exibicoes.filter(
                   (item) => item.play === true
                 );
@@ -172,7 +180,7 @@ export function ListAllSchedule() {
                       style={
                         showTable === item.id_programacao ? { border: "0" } : {}
                       }
-                      key={index}
+                      key={item.id_programacao}
                       type="button"
                     >
                       <ItemTitle
@@ -190,7 +198,6 @@ export function ListAllSchedule() {
                           <strong>{item.nome}</strong>
                           <div>
                             <span>{formatarTempoDeExecucao(item.duracao)}</span>{" "}
-                            /<span> 21/10/2023</span>
                             <span title="Em reprodução">
                               {play[0]?.play === true && (
                                 <>
@@ -214,16 +221,14 @@ export function ListAllSchedule() {
                           <Calendar size={20} /> Agendar
                         </ButtonAgendarProgramacao>
                         {objetosFiltrados.length > 0 && (
-                        <ButtonListarProgramacao
-                        title="Clique para ver os agendamentos"
-                          onClick={() => activeModalListarAgendamentos(item)}
-                         
-                        >
-                          <strong> {objetosFiltrados.length}</strong>
-                        </ButtonListarProgramacao>
-                      )}
+                          <ButtonListarProgramacao
+                            title="Clique para ver os agendamentos"
+                            onClick={() => activeModalListarAgendamentos(item)}
+                          >
+                            <strong> {objetosFiltrados.length}</strong>
+                          </ButtonListarProgramacao>
+                        )}
                       </Info>
-              
                     </Item>
                     {showTable === item.id_programacao && (
                       <ListVideo>
@@ -231,7 +236,12 @@ export function ListAllSchedule() {
                           return (
                             <Video key={index}>
                               <li>
-                                <img src={ImgTeste} alt="" />
+                                <img
+                                  style={{ width: "35px", height: "35px",cursor:"pointer" }}
+                                  src={video.thumb}
+                                  alt=""
+                                  onClick={() => activeModalThumb(video.thumb)}
+                                />
                                 <strong>{video.nome} / </strong>
                                 <span>
                                   <Clock
@@ -242,6 +252,11 @@ export function ListAllSchedule() {
                                   {formatarTempoDeExecucao(video.duracao)}
                                 </span>
                               </li>
+                              <ModalContent
+                                show={modalShowThumb}
+                                onHide={() => setModalShowThumb(false)}
+                                data={thumb}
+                              />
                             </Video>
                           );
                         })}
@@ -253,23 +268,20 @@ export function ListAllSchedule() {
             </>
           )}
 
-        
-            <ContentPaginate>
-              {/* Componente de paginação */}
-              <Pagination >
-                <Pagination.Prev
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                                 
-                />
-                <Pagination.Item active >{currentPage}</Pagination.Item>
-                <Pagination.Next 
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={list.length === 0} // Desabilitar o botão "Next" quando não houver mais itens.
-                />
-              </Pagination>
-            </ContentPaginate>
-         
+          <ContentPaginate>
+            {/* Componente de paginação */}
+            <Pagination>
+              <Pagination.Prev
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              />
+              <Pagination.Item active>{currentPage}</Pagination.Item>
+              <Pagination.Next
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={list.length === 0} // Desabilitar o botão "Next" quando não houver mais itens.
+              />
+            </Pagination>
+          </ContentPaginate>
         </Content>
       </Container>
       <ModalCriarAgendamento

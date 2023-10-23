@@ -4,6 +4,7 @@ import { ContentModal } from "./styles";
 import { X } from "@phosphor-icons/react";
 import { formatarData } from "../../../../utils/formatDate";
 
+
 export function ModalListarAgendamentoId(props) {
   const data = props.data;
   // Obtendo a data e hora atual

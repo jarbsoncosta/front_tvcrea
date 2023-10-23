@@ -15,7 +15,7 @@ export const Title = styled.div`
   justify-content: space-between;
   h5 {
     font-weight: 600;
-    color: ${(props) => props.theme["gray700"]};
+    color: ${(props) => props.theme["slate"]};
   }
   button {
     padding: 0 1rem;
@@ -25,7 +25,7 @@ export const ContentCard = styled.div`
   width: 700px;
   background: #ffff;
   min-height: 600px;
-  padding: 2rem;
+  padding: 3.2rem 2rem;
   border-radius: 4px;
   @media (max-width: 750px) {
     width: 100%;
@@ -79,13 +79,13 @@ export const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
   tr {
-    padding: 5px 10px;
+    padding:10px;
     text-align: center;
   }
   td {
     border: none;
     text-align: left;
-    padding: 5px 10px;
+    padding: 8px;
     border-bottom: 1px solid ${(props) => props.theme["gray-200"]}; /* Cor de realce ao passar o mouse */
   }
   td {
@@ -100,7 +100,7 @@ export const Table = styled.table`
   }
   tbody tr:hover {
     background-color: ${(props) =>
-      props.theme["gray-100"]}; /* Cor de realce ao passar o mouse */
+      props.theme["gray50"]}; /* Cor de realce ao passar o mouse */
   }
 `;
 export const ContentPaginate = styled.div`

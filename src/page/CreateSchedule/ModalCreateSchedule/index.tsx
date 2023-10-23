@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../../context/authContext";
 import { api } from "../../../services/api";
 
+
+
 export function ModalCreateSchedule(props) {
   const { user } = useAuth();
   const [title, setTitle] = useState("");
