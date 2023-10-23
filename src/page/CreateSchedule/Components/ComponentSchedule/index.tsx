@@ -138,7 +138,7 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
                         />
                         
                       </div>
-                      <strong>{filme.assunto}</strong>
+                      <strong style={{ color: "#374151", fontWeight: 500 }}>{filme.assunto}</strong>
                     </td>
                     <td
                       style={{
