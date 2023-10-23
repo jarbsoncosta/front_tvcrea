@@ -80,10 +80,11 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
   // Renderização do componente
   return (
     <Container>
-      <Time>
-        <h5>Duração </h5>
-        <h2>{formatarTempoDeExecucao(duracaoTotal)}</h2>
-      </Time>
+   {selectedVideos.length > 0 && (
+       <Time>
+       <h2>{formatarTempoDeExecucao(duracaoTotal)}</h2>
+     </Time>
+   )}
 
       {selectedVideos.length > 0 && (
         <div>

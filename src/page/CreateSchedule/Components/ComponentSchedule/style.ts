@@ -67,6 +67,11 @@ export const Time = styled.div`
  width: 100%;
  h2{
   font-weight: bold;
+  color: ${(props) => props.theme["blue-back"]};
+  padding: 1rem;
+  background: ${(props) => props.theme["gray-200"]};
+  border-radius: 5px;
+
  }
  h5{
   font-weight: 600;

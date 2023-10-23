@@ -177,7 +177,6 @@ export function ListAllSchedule() {
                   const horaFim = new Date(objeto.hora_fim);
                   return horaFim >= dataAtual;
                 });
-
                 return (
                   <>
                     <Item
