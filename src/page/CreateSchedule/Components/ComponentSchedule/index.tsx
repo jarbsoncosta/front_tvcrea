@@ -111,7 +111,7 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
                   >
                     <td>{index + 1}</td>
                     <td
-                     style={{width:"250px", display:"flex",alignItems:"center"}}
+                     style={{display:"flex",alignItems:"center"}}
                     >
                       <div
                         style={{
