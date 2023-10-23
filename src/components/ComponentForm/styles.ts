@@ -19,13 +19,13 @@ export const FormContainer = styled.div`
 
 export const FormLabel = styled.label`
   margin-bottom: 5px;
-  font-size: 12px;
+  font-size: 1rem
   color: ${(props) => props.theme["gray-600"]};
 `;
 export const FormInput = styled.input`
   border-radius: 5px;
   border: 1px solid ${(props) => props.theme["gray-300"]};
-  font-size: 12px;
+  font-size: 0.875rem
   margin-bottom: 12px;
   padding: 10px;
   padding-left: 0.5rem;
@@ -38,7 +38,7 @@ export const FormInput = styled.input`
     box-shadow: 0 0 5 ${(props) => props.theme["blue"]}; /* Adiciona uma sombra quando o input está em foco */
   }
   &::placeholder {
-    font-size: 12px;
+    font-size: 0.875rem
   }
 `;
 
@@ -47,7 +47,7 @@ export const FormTextarea = styled.textarea`
   border-radius: 5px;
   padding: 5px;
   border: 1px solid ${(props) => props.theme["gray-300"]};
-  font-size: 12px;
+  font-size:1rem;
   padding: 5px;
   padding-left: 0.5rem;
   &:focus {
@@ -59,7 +59,7 @@ export const FormTextarea = styled.textarea`
     box-shadow: 0 0 5 ${(props) => props.theme["blue"]}; /* Adiciona uma sombra quando o input está em foco */
   }
   &::placeholder {
-    font-size: 12px;
+    font-size: 0.875rem
   }
 `;
 
@@ -70,7 +70,7 @@ export const ButtonSubmit = styled.button`
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
-  font-size: 0.75rem;
+  font-size: 1rem;
   border-radius: 5px;
   border: 0;
   background: ${(props) => props.theme["green-600"]};
@@ -90,7 +90,7 @@ export const ButtonCancel = styled.button`
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
-  font-size: 0.75rem;
+  font-size: 1rem;
   border-radius: 5px;
   border: 0;
   background: ${(props) => props.theme["gray-500"]};
@@ -118,13 +118,18 @@ export const StyledButton = styled.button`
   background-color: ${(props) => props.theme["blue"]};
   color: #fff;
   width: 100%;
-  padding: 5px;
+  padding: 0.5rem;
   border-radius: 5px;
+  font-size: 1rem;
   border: none;
   margin-bottom: 1rem;
   cursor: pointer;
   opacity: ${(props) => (props.disabled ? "0.6" : "1")};
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  transition: 1s;
+  &:hover{
+    background-color: ${(props) => props.theme["blue-back"]};
+  }
 `;
 
 export const ContentLoading = styled.div`
@@ -190,6 +195,7 @@ export const InfoVideo = styled.div`
   justify-content: left;
   padding: 0.5rem;
   border-radius: 5px;
+  
 
   li {
     list-style: none;

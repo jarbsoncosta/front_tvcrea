@@ -159,9 +159,10 @@ export function ComponentForm({ data }: any) {
         <VideoFile>
           {!returnData.name ? (
             <strong>
-              <Video color="#1d4ed8" size={40} /> {data.filename}
+              <Video color="#1d4ed8" size={35} weight="bold" /> 
+              <strong style={{fontSize:"1.3rem"}}>{data.filename}</strong>
               <Trash
-                size={25}
+                size={30}
                 style={{ cursor: "pointer" }}
                 color="#e11d48"
                 onClick={DeleteVideo}
@@ -170,7 +171,7 @@ export function ComponentForm({ data }: any) {
             </strong>
           ) : (
             <InfoVideo>
-              <li>Nome: {returnData.name} </li>
+              <li >Nome: {returnData.name} </li>
               <li>Duração: {formatarTempoDeExecucao(returnData.duration)} </li>
               <li>Tamanho: {formatarTamanhoDoVideo(returnData.file_size)} </li>
             </InfoVideo>
@@ -182,14 +183,14 @@ export function ComponentForm({ data }: any) {
               <ValidateVideo>
                 <StyledButton disabled={!status || isLoading} type="submit">
                   {!isLoading ? (
-                    " validar"
+                    "Validar"
                   ) : (
-                    <LoadingComponent text="Processando..." />
+                    <LoadingComponent text="Validando..." />
                   )}
                 </StyledButton>
                 {!isLoading && (
                   <StyledButton type="button" onClick={handleCheckStatusFalse}>
-                    não validar
+                    Não validar
                   </StyledButton>
                 )}
               </ValidateVideo>
