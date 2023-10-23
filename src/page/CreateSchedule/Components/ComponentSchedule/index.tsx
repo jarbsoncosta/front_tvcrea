@@ -80,11 +80,11 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
   // Renderização do componente
   return (
     <Container>
-   {selectedVideos.length > 0 && (
-       <Time>
-       <h2>{formatarTempoDeExecucao(duracaoTotal)}</h2>
-     </Time>
-   )}
+      {selectedVideos.length > 0 && (
+        <Time>
+          <h2>{formatarTempoDeExecucao(duracaoTotal)}</h2>
+        </Time>
+      )}
 
       {selectedVideos.length > 0 && (
         <div>
@@ -111,18 +111,34 @@ export function ComponentSchedule({ selectedVideos, setSelectedVideos }: any) {
                   >
                     <td>{index + 1}</td>
                     <td
-                      style={{
-                        borderRadius: "5px 0 0 5px",
-                      }}
+                     style={{width:"250px", display:"flex",alignItems:"center"}}
                     >
-                      <img
-                        width={30}
-                        height={30}
-                        src={filme.localizacao_thumb}
-                        alt=""
-                        style={{ marginRight: "0.5rem" }}
-                      />
-                      {filme.nome}
+                      <div
+                        style={{
+                          width: "45px",
+                          height: "45px",
+                          borderRadius: "100%",
+                          border: "3px solid #2868b0",
+                          display: "flex",
+                          alignItems: "center",
+                          marginRight: "1rem",
+                        }}
+                      >
+                        <img
+                          src={filme.localizacao_thumb}
+                          alt=""
+                          style={{
+                            width: "35px",
+                            height: "35px",
+                            cursor: "pointer",
+                           
+                            marginLeft:"2px"
+                            
+                          }}
+                        />
+                        
+                      </div>
+                      <strong>{filme.assunto}</strong>
                     </td>
                     <td
                       style={{

@@ -47,7 +47,6 @@ export function ComponentForm({ data }: any) {
   const [returnData, setReturnData] = useState<ResponseData>(
     {} as ResponseData
   );
-  console.log(returnData);
   const [thumbnail, setThumbnail] = useState(null);
 
   const handleClick = (valorThumbnail) => {
