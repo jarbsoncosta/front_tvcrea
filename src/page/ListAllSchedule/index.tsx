@@ -239,16 +239,29 @@ export function ListAllSchedule() {
                           return (
                             <Video key={index}>
                               <li>
+                                <div style={{
+                                    width: "45px",
+                                    height: "45px",
+                                    borderRadius:"100%",
+                                    border:"3px solid #2868b0",
+                                    display:"flex",
+                                    alignItems:"center",
+                                    marginRight:"1rem"
+                                  }}>
                                 <img
                                   style={{
                                     width: "35px",
                                     height: "35px",
                                     cursor: "pointer",
+                                   
+                                    marginLeft:"2px"
+                                    
                                   }}
                                   src={video.thumb}
                                   alt=""
                                   onClick={() => activeModalThumb(video.thumb)}
                                 />
+                                </div>
                                 <strong>{video.nome} / </strong>
                                 <span>
                                   <Clock

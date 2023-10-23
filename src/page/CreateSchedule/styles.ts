@@ -23,7 +23,7 @@ export const Title = styled.div`
 `;
 export const ContentCard = styled.div`
   min-width: 700px;
-  height: 800px;
+  height: 900px;
   background: #ffff;
   min-height: 600px;
   padding: 3.2rem 2rem;

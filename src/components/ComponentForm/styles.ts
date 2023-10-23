@@ -9,7 +9,7 @@ export const Container = styled.div`
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30rem;
+  width: 25rem;
   margin: 3rem auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -19,13 +19,13 @@ export const FormContainer = styled.div`
 
 export const FormLabel = styled.label`
   margin-bottom: 5px;
-  font-size: 1rem
+  font-size: 1rem;
   color: ${(props) => props.theme["gray-600"]};
 `;
 export const FormInput = styled.input`
   border-radius: 5px;
   border: 1px solid ${(props) => props.theme["gray-300"]};
-  font-size: 0.875rem
+  font-size: 0.875rem;
   margin-bottom: 12px;
   padding: 10px;
   padding-left: 0.5rem;
@@ -35,7 +35,10 @@ export const FormInput = styled.input`
         "blue"
       ]}; /* Altere para a cor desejada quando o input estiver em foco */
     outline: none; /* Remove o contorno padrão quando o input está em foco */
-    box-shadow: 0 0 5 ${(props) => props.theme["blue"]}; /* Adiciona uma sombra quando o input está em foco */
+    box-shadow: 0 0 5 ${(props) =>
+      props.theme[
+        "blue"
+      ]}; /* Adiciona uma sombra quando o input está em foco */
   }
   &::placeholder {
     font-size: 0.875rem
@@ -47,7 +50,7 @@ export const FormTextarea = styled.textarea`
   border-radius: 5px;
   padding: 5px;
   border: 1px solid ${(props) => props.theme["gray-300"]};
-  font-size:1rem;
+  font-size: 1rem;
   padding: 5px;
   padding-left: 0.5rem;
   &:focus {
@@ -59,7 +62,7 @@ export const FormTextarea = styled.textarea`
     box-shadow: 0 0 5 ${(props) => props.theme["blue"]}; /* Adiciona uma sombra quando o input está em foco */
   }
   &::placeholder {
-    font-size: 0.875rem
+    font-size: 0.875rem;
   }
 `;
 
@@ -105,7 +108,7 @@ export const ButtonCancel = styled.button`
 `;
 export const ErrorInput = styled.p`
   margin-top: 0.5rem;
-  font-size: 12px;
+  font-size: 0.875rem;
   color: ${(props) => props.theme["red-600"]};
 `;
 export const ValidateVideo = styled.div`
@@ -127,7 +130,7 @@ export const StyledButton = styled.button`
   opacity: ${(props) => (props.disabled ? "0.6" : "1")};
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   transition: 1s;
-  &:hover{
+  &:hover {
     background-color: ${(props) => props.theme["blue-back"]};
   }
 `;
@@ -176,9 +179,9 @@ export const ArrayThumbnail = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between; 
+  justify-content: space-between;
   border-radius: 5px;
- 
+
   img {
     border-radius: 5px;
   }
@@ -195,9 +198,11 @@ export const InfoVideo = styled.div`
   justify-content: left;
   padding: 0.5rem;
   border-radius: 5px;
-  
 
   li {
     list-style: none;
+    display: flex;
+    align-items: center;
+    margin-top: -0.5rem;
   }
 `;

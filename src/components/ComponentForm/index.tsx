@@ -47,7 +47,7 @@ export function ComponentForm({ data }: any) {
   const [returnData, setReturnData] = useState<ResponseData>(
     {} as ResponseData
   );
-
+  console.log(returnData);
   const [thumbnail, setThumbnail] = useState(null);
 
   const handleClick = (valorThumbnail) => {
@@ -159,8 +159,8 @@ export function ComponentForm({ data }: any) {
         <VideoFile>
           {!returnData.name ? (
             <strong>
-              <Video color="#1d4ed8" size={35} weight="bold" /> 
-              <strong style={{fontSize:"1.3rem"}}>{data.filename}</strong>
+              <Video color="#1d4ed8" size={35} weight="bold" />
+              <strong style={{ fontSize: "1.3rem" }}>{data.filename}</strong>
               <Trash
                 size={30}
                 style={{ cursor: "pointer" }}
@@ -171,29 +171,37 @@ export function ComponentForm({ data }: any) {
             </strong>
           ) : (
             <InfoVideo>
-              <li >Nome: {returnData.name} </li>
-              <li>Duração: {formatarTempoDeExecucao(returnData.duration)} </li>
-              <li>Tamanho: {formatarTamanhoDoVideo(returnData.file_size)} </li>
+              <li><strong>Nome:</strong> {returnData.name} </li>
+              <li><strong>Duração: </strong>{formatarTempoDeExecucao(returnData.duration)} </li>
+              <li><strong>Tamanho:</strong> {formatarTamanhoDoVideo(returnData.file_size)} </li>
             </InfoVideo>
           )}
         </VideoFile>
         <form onSubmit={verificarValidadeVideoPOST}>
           {!returnData.name && (
             <>
-              <ValidateVideo>
-                <StyledButton disabled={!status || isLoading} type="submit">
-                  {!isLoading ? (
-                    "Validar"
-                  ) : (
-                    <LoadingComponent text="Validando..." />
-                  )}
-                </StyledButton>
-                {!isLoading && (
-                  <StyledButton type="button" onClick={handleCheckStatusFalse}>
-                    Não validar
+              {status ? (
+                <ValidateVideo>
+                  <StyledButton disabled={!status || isLoading} type="submit">
+                    {!isLoading ? (
+                      "Validar"
+                    ) : (
+                      <LoadingComponent text="Validando..." />
+                    )}
                   </StyledButton>
-                )}
-              </ValidateVideo>
+                  {!isLoading && (
+                    <StyledButton
+                      disabled={!status || isLoading}
+                      type="button"
+                      onClick={handleCheckStatusFalse}
+                    >
+                      Não validar
+                    </StyledButton>
+                  )}
+                </ValidateVideo>
+              ) : (
+                ""
+              )}
             </>
           )}
         </form>
@@ -202,9 +210,9 @@ export function ComponentForm({ data }: any) {
           {!status ? (
             <>
               <div style={{ marginBottom: "1rem" }}>
-                <strong style={{ fontSize: "12px" }}>
+                <span style={{ fontSize: "0.875rem" }}>
                   Preencha os dados para cadastro do video
-                </strong>
+                </span>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <FormLabel>Título:</FormLabel>

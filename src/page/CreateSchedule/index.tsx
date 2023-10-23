@@ -181,15 +181,35 @@ export function CreateSchedule() {
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td onClick={() => activeModal(video)}>
-                        <img
-                          width={30}
-                          height={30}
-                          src={video.localizacao_thumb}
-                          alt=""
-                          style={{ marginRight: "0.5rem", cursor: "pointer" }}
-                        />
-                        {video.nome}
+                      <td style={{width:"250px", display:"flex",alignItems:"center"}} onClick={() => activeModal(video)}>
+                        <div
+                          style={{
+                            width: "45px",
+                            height: "45px",
+                            borderRadius: "100%",
+                            border: "3px solid #2868b0",
+                            display: "flex",
+                            alignItems: "center",
+                            marginRight: "1rem",
+                          }}
+                        >
+                          <img
+                           
+                            src={video.localizacao_thumb}
+                            alt=""
+                            style={{
+                              width: "35px",
+                              height: "35px",
+                              cursor: "pointer",
+                             
+                              marginLeft:"2px"
+                              
+                            }}
+                          />
+                        </div>
+                        <strong style={{ color: "#374151", fontWeight: 500 }}>
+                          {video.assunto}
+                        </strong>
                       </td>
                       <td
                         style={{
