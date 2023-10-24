@@ -21,6 +21,7 @@ import { ComponentSchedule } from "./Components/ComponentSchedule";
 import {
   ArrowFatLinesRight,
   CheckCircle,
+  Circle,
   MonitorPlay,
   Trash,
   Video,
@@ -46,11 +47,23 @@ interface Filmes {
   videoId: string;
   erros: string;
   status: boolean;
+  hide:boolean
 }
 
 export function CreateSchedule() {
   const { user } = useAuth();
   const [list, setList] = useState<Filmes[]>([]);
+  
+  const filterListNotAdmin = list.filter((item)=> item.hide === false && user.username !== "admin")
+
+ let array = filterListNotAdmin 
+
+ console.log(list)
+
+ if(user.username === "admin"){
+  array = list
+ }
+ 
   const [currentPage, setCurrentPage] = useState(1);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -70,7 +83,7 @@ export function CreateSchedule() {
       api
         .delete(`/arquivos/delete/${video.id}`, {
           headers: {
-            accept: "application/json",
+            "content-type": "application/json",
             Authorization: `Bearer ${user.token}`,
           },
         })
@@ -165,7 +178,7 @@ export function CreateSchedule() {
               onChange={handleSearchChange}
             />
           </Search>
-          {list.length > 0 ? (
+          {array.length > 0 ? (
             <Table>
               <thead>
                 <tr>
@@ -177,7 +190,7 @@ export function CreateSchedule() {
                 </tr>
               </thead>
               <tbody>
-                {list.map((video, index) => {
+                {array.map((video, index) => {
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
@@ -210,6 +223,13 @@ export function CreateSchedule() {
                         <strong style={{ color: "#374151", fontWeight: 500 }}>
                           {video.assunto}
                         </strong>
+                        <span style={{marginLeft:"1rem"}}>{video.hide === true && (
+                           <Circle
+                           size={17}
+                           color="red"
+                           weight="fill"
+                         />
+                        )} </span>
                       </td>
                       <td
                         style={{
@@ -286,7 +306,7 @@ export function CreateSchedule() {
             data={data}
           />
 
-          {list.length > 0 && (
+          {array.length > 0 && (
             <ContentPaginate>
               {/* Componente de paginação */}
               <Pagination>
@@ -297,7 +317,7 @@ export function CreateSchedule() {
                 <Pagination.Item active>{currentPage}</Pagination.Item>
                 <Pagination.Next
                   onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={list.length === 0} // Desabilitar o botão "Next" quando não houver mais itens.
+                  disabled={array.length === 0} // Desabilitar o botão "Next" quando não houver mais itens.
                 />
               </Pagination>
             </ContentPaginate>
