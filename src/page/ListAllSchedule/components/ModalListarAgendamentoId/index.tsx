@@ -1,6 +1,6 @@
 import Modal from "react-bootstrap/Modal";
 import "react-datepicker/dist/react-datepicker.css";
-import { ContentModal } from "./styles";
+import { ContentModal, IconVideoCamara } from "./styles";
 import { X } from "@phosphor-icons/react";
 import { formatarData } from "../../../../utils/formatDate";
 
@@ -36,16 +36,27 @@ export function ModalListarAgendamentoId(props) {
             {data?.exibicoes.length > 0 ? (
               <>
                 {objetosFiltrados?.map((item, index) => {
+                  const emReproducao = item.play === true ? "Reproduzindo" : "";
+
                   const horaFimString = item.hora_fim
                     .split("T")[1]
                     .split(".")[0];
                   return (
-                    <span key={index}>
+                    <span key={index} style={{display:"flex"}}>
                       <strong>
                         {index + 1} - Dia : {formatarData(item.hora_inicio)}
-                      </strong >
+                      </strong>
                       &nbsp;até&nbsp;
                       <strong>{horaFimString}</strong>
+                      <span>
+                        {emReproducao && (
+                          <IconVideoCamara
+                            size={17}
+                            color="#84cc16"
+                            weight="fill"
+                          />
+                        )}
+                      </span>
                     </span>
                   );
                 })}
