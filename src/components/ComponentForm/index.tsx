@@ -185,7 +185,7 @@ export function ComponentForm({ data }: any) {
                     {!isLoading ? (
                       "Validar"
                     ) : (
-                      <LoadingComponent text="Validando..." />
+                      <LoadingComponent text="Validando" />
                     )}
                   </StyledButton>
                   {!isLoading && (
