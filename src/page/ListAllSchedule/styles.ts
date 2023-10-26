@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Circle } from "@phosphor-icons/react";
-import {NavLink} from 'react-router-dom'
+import { NavLink } from "react-router-dom";
 
 export const IconVideoCamara = styled(Circle)`
   border: 2px solid #65a30d;
@@ -42,9 +42,7 @@ export const ButtonCriarProgramacao = styled(NavLink)`
   background-color: ${(props) => props.theme["blue"]};
   &:hover {
     background-color: ${(props) => props.theme["blue-back"]};
-   
   }
-  
 `;
 
 export const Item = styled.button`
@@ -117,7 +115,7 @@ export const ButtonListarProgramacao = styled.button`
   position: absolute;
   border: 0;
   padding: 0.4rem 0.8rem;
-   color: ${(props) => props.theme["gray700"]};
+  color: ${(props) => props.theme["gray700"]};
   border-radius: 100%;
   display: flex;
   justify-content: center;
@@ -128,9 +126,8 @@ export const ButtonListarProgramacao = styled.button`
     background-color: ${(props) => props.theme["gray-400"]};
     color: ${(props) => props.theme["gray700"]};
     font-weight: 500;
-      
   }
-  &:focus{
+  &:focus {
     box-shadow: none;
   }
 `;
@@ -146,9 +143,7 @@ export const ButtonAgendarProgramacao = styled.button`
   background-color: ${(props) => props.theme["blue"]};
   &:hover {
     background-color: ${(props) => props.theme["blue-back"]};
-   
   }
-  
 `;
 
 export const ListVideo = styled.div`
@@ -224,4 +219,18 @@ export const ButtonAgendar = styled.button`
   padding: 0.5rem 1rem;
   border-radius: 4px;
   border: 1px solid ${(props) => props.theme["gray-400"]};
+`;
+
+export const ButtonTask = styled.button`
+  display: flex;
+  background-color: transparent;
+  border: 0;
+  color: ${(props) => props.theme["red-500"]};
+  border-radius: 100%;
+  box-shadow: none;
+  padding: 5px;
+  &:hover {
+    background-color: ${(props) => props.theme["red-200"]};
+    box-shadow: none;
+  }
 `;

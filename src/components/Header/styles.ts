@@ -10,8 +10,11 @@ export const HeaderContainer = styled.header`
   width: 100%;
   
   background: ${(props) => props.theme["blue"]};
-  @media (max-width: 1024px) {
-    justify-content: right;
+  @media (max-width: 577px) {
+    a{
+      display: none;
+    }
+    
   }
 `;
 

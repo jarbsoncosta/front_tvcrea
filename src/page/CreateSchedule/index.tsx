@@ -54,12 +54,9 @@ export function CreateSchedule() {
   const { user } = useAuth();
   const [list, setList] = useState<Filmes[]>([]);
   
-  const filterListNotAdmin = list.filter((item)=> item.hide === false && user.username !== "admin")
-
+const filterListNotAdmin = list.filter((item)=> item.hide === false && user.username !== "admin")
  let array = filterListNotAdmin 
-
  console.log(list)
-
  if(user.username === "admin"){
   array = list
  }
@@ -195,6 +192,13 @@ export function CreateSchedule() {
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td style={{width:"250px", display:"flex",alignItems:"center"}} onClick={() => activeModal(video)}>
+                      <span style={{margin:"-3rem 0 0 -1rem", position:"absolute"}}>{video.hide === true && (
+                           <Circle
+                           size={17}
+                           color="red"
+                           weight="fill"
+                         />
+                        )} </span>
                         <div
                           style={{
                             width: "45px",
@@ -223,13 +227,7 @@ export function CreateSchedule() {
                         <strong style={{ color: "#374151", fontWeight: 500 }}>
                           {video.assunto}
                         </strong>
-                        <span style={{marginLeft:"1rem"}}>{video.hide === true && (
-                           <Circle
-                           size={17}
-                           color="red"
-                           weight="fill"
-                         />
-                        )} </span>
+                      
                       </td>
                       <td
                         style={{

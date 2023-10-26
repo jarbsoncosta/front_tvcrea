@@ -2,15 +2,18 @@ import {
   Calendar,
   CaretDown,
   CaretRight,
+  Circle,
   ClipboardText,
   Clock,
   Queue,
+  Trash,
 } from "@phosphor-icons/react";
 import { Header } from "../../components/Header";
 import {
   ButtonAgendarProgramacao,
   ButtonCriarProgramacao,
   ButtonListarProgramacao,
+  ButtonTask,
   Container,
   Content,
   ContentPaginate,
@@ -31,7 +34,6 @@ import { Pagination } from "react-bootstrap";
 import { formatarTempoDeExecucao } from "../../utils/formatVideoLength";
 import { ModalCriarAgendamento } from "./components/ModalAgendamento";
 import { ModalListarAgendamentoId } from "./components/ModalListarAgendamentoId";
-import ImgTeste from "../../assets/download.jpg";
 import { ModalContent } from "../../components/Modal";
 export function ListAllSchedule() {
   const [showTable, setShowTable] = useState(null);
@@ -43,6 +45,7 @@ export function ListAllSchedule() {
     nome: string;
     id_operador: string;
     duracao: number;
+    p_hide: boolean;
     exibicoes: [
       {
         hora_fim: Date;
@@ -80,7 +83,17 @@ export function ListAllSchedule() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [list, setList] = useState<Programacao[]>([]);
-  console.log(list);
+
+  const filterListNotAdmin = list.filter(
+    (item) => item.p_hide === false && user.username !== "admin"
+  );
+  let array = filterListNotAdmin;
+  if (user.username === "admin") {
+    array = list;
+  }
+
+  console.log(array);
+
   const fetchVideoList = () => {
     api
       .get(
@@ -120,6 +133,31 @@ export function ListAllSchedule() {
     setThumb(data);
   }
 
+  //DELETAR UMA PROGRAMAÇÃO
+  function DeleteProgramação(programacao: any) {
+    const confirmDelete = window.confirm(
+      `Deseja realmente excluir está programação ${programacao.nome} ?`
+    );
+
+    if (confirmDelete) {
+      api
+        .delete(`/programacao/hide-programacao/${programacao.id_programacao}`, {
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+        .then(() => {
+          fetchVideoList();
+        })
+        .catch((error) => {
+          console.error("Ocorreu um erro:", error);
+        });
+    } else {
+      console.log("Exclusão cancelada pelo usuário.");
+    }
+  }
+
   return (
     <>
       <Header />
@@ -154,7 +192,7 @@ export function ListAllSchedule() {
               onChange={handleSearchChange}
             />
           </div>
-          {list.length === 0 ? (
+          {array.length === 0 ? (
             <div
               style={{
                 width: "100%",
@@ -166,7 +204,7 @@ export function ListAllSchedule() {
             </div>
           ) : (
             <>
-              {list.map((item) => {
+              {array.map((item) => {
                 const play = item.exibicoes.filter(
                   (item) => item.play === true
                 );
@@ -196,6 +234,11 @@ export function ListAllSchedule() {
                         ) : (
                           <CaretRight size={25} color="#6b7280" />
                         )}
+                        <span style={{margin:"-3rem 0 0 2rem", position:"absolute"}}>
+                          {item?.p_hide === true && (
+                            <Circle size={17} color="red" weight="fill" />
+                          )}{" "}
+                        </span>
                         <ClipboardText color="#074e8c" size={25} />
                         <InfoProgramacao>
                           <strong>{item.nome}</strong>
@@ -231,6 +274,14 @@ export function ListAllSchedule() {
                             <strong> {objetosFiltrados.length}</strong>
                           </ButtonListarProgramacao>
                         )}
+                        <ButtonTask
+                          title="Remover da programação"
+                          onClick={() => {
+                            DeleteProgramação(item);
+                          }}
+                        >
+                          <Trash size={23} />
+                        </ButtonTask>
                       </Info>
                     </Item>
                     {showTable === item.id_programacao && (
@@ -239,28 +290,31 @@ export function ListAllSchedule() {
                           return (
                             <Video key={index}>
                               <li>
-                                <div style={{
+                                <div
+                                  style={{
                                     width: "45px",
                                     height: "45px",
-                                    borderRadius:"100%",
-                                    border:"3px solid #2868b0",
-                                    display:"flex",
-                                    alignItems:"center",
-                                    marginRight:"1rem"
-                                  }}>
-                                <img
-                                  style={{
-                                    width: "35px",
-                                    height: "35px",
-                                    cursor: "pointer",
-                                   
-                                    marginLeft:"2px"
-                                    
+                                    borderRadius: "100%",
+                                    border: "3px solid #2868b0",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    marginRight: "1rem",
                                   }}
-                                  src={video.thumb}
-                                  alt=""
-                                  onClick={() => activeModalThumb(video.thumb)}
-                                />
+                                >
+                                  <img
+                                    style={{
+                                      width: "35px",
+                                      height: "35px",
+                                      cursor: "pointer",
+
+                                      marginLeft: "2px",
+                                    }}
+                                    src={video.thumb}
+                                    alt=""
+                                    onClick={() =>
+                                      activeModalThumb(video.thumb)
+                                    }
+                                  />
                                 </div>
                                 <strong>{video.nome} / </strong>
                                 <span>
@@ -298,7 +352,7 @@ export function ListAllSchedule() {
               <Pagination.Item active>{currentPage}</Pagination.Item>
               <Pagination.Next
                 onClick={() => handlePageChange(currentPage + 1)}
-                disabled={list.length === 0} // Desabilitar o botão "Next" quando não houver mais itens.
+                disabled={array.length === 0} // Desabilitar o botão "Next" quando não houver mais itens.
               />
             </Pagination>
           </ContentPaginate>
