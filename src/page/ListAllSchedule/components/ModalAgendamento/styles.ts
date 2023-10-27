@@ -66,7 +66,6 @@ export const Hours = styled.div`
     }
   }
   .minute {
-
       select {
       width: 6.25rem;
       padding: 0.4rem;

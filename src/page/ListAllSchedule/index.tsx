@@ -35,32 +35,36 @@ import { formatarTempoDeExecucao } from "../../utils/formatVideoLength";
 import { ModalCriarAgendamento } from "./components/ModalAgendamento";
 import { ModalListarAgendamentoId } from "./components/ModalListarAgendamentoId";
 import { ModalContent } from "../../components/Modal";
+
+interface Programacao {
+  id_programacao: number;
+  nome: string;
+  id_operador: string;
+  duracao: number;
+  p_hide: boolean;
+  exibicoes: [
+    {
+      hora_fim: Date;
+      hora_inicio: Date;
+      play: boolean;
+    }
+  ];
+  sequencia: [
+    {
+      nome: string;
+      duracao: number;
+      thumb: string;
+    }
+  ];
+}
+
+
+
+
 export function ListAllSchedule() {
   const [showTable, setShowTable] = useState(null);
 
-  const { user } = useAuth();
-
-  interface Programacao {
-    id_programacao: number;
-    nome: string;
-    id_operador: string;
-    duracao: number;
-    p_hide: boolean;
-    exibicoes: [
-      {
-        hora_fim: Date;
-        hora_inicio: Date;
-        play: boolean;
-      }
-    ];
-    sequencia: [
-      {
-        nome: string;
-        duracao: number;
-        thumb: string;
-      }
-    ];
-  }
+  const { user } = useAuth();  
 
   function handleChangeShowTable(itemId: any) {
     setShowTable(itemId === showTable ? null : itemId);
@@ -134,7 +138,7 @@ export function ListAllSchedule() {
   }
 
   //DELETAR UMA PROGRAMAÇÃO
-  function DeleteProgramação(programacao: any) {
+  function deleteProgramacao(programacao: any) {
     const confirmDelete = window.confirm(
       `Deseja realmente excluir está programação ${programacao.nome} ?`
     );
@@ -277,7 +281,7 @@ export function ListAllSchedule() {
                         <ButtonTask
                           title="Remover da programação"
                           onClick={() => {
-                            DeleteProgramação(item);
+                            deleteProgramacao(item);
                           }}
                         >
                           <Trash size={23} />

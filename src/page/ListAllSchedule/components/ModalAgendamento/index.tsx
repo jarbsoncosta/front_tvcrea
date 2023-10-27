@@ -51,15 +51,15 @@ export function ModalCriarAgendamento(props) {
       selectedMinute
     );
 
-    if (selectedHour === 0 || selectedMinute === 0) {
+    if (selectedHour === 0) {
       setMessage("Selecione uma hora e minutos válidos!");
     } else if (selectedDateTime < currentDateTime) {
       setMessage(
         "A data e hora selecionadas não podem ser anteriores à data e hora atual!"
       );
     } else if (
-      selectedHour < currentHour ||
-      (selectedHour === currentHour && selectedMinute < currentMinute)
+      selectedHour < currentHour && selectedDateTime < currentDateTime
+     
     ) {
       setMessage("A hora selecionada não pode ser anterior à hora atual!");
     } else {
@@ -68,6 +68,8 @@ export function ModalCriarAgendamento(props) {
         id_programacao: props.data.id_programacao,
         data_agendada: formattedDate,
       };
+
+    
       api
         .post("agendar", data, {
           headers: {
