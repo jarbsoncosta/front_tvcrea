@@ -2,18 +2,13 @@ import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { ContentModal, Form } from "./styles";
-import { X } from "@phosphor-icons/react";
+import { ContentDate, ContentModal, Form, Hours } from "./styles";
+import { FloppyDisk, X } from "@phosphor-icons/react";
 import { toast } from "react-toastify";
 import { useAuth } from "../../../../context/authContext";
 import { api } from "../../../../services/api";
 import { pt } from "date-fns/locale";
 import { formatarTempoDeExecucao } from "../../../../utils/formatVideoLength";
-
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 export function ModalCriarAgendamento(props) {
   const { user } = useAuth();
@@ -21,42 +16,77 @@ export function ModalCriarAgendamento(props) {
     props.close();
   }
 
-  const [dateTime, setDateTime] = useState(new Date());
-  const handleDateTimeChange = (newDateTime: any) => {
-    // Verificar se a nova data e hora são maiores ou iguais à data e hora atuais
-    if (newDateTime >= new Date()) {
-      setDateTime(newDateTime);
-    } else {
-      toast.info("Data selecionada não está disponível.");
-    }
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedHour, setSelectedHour] = useState(0);
+  const [selectedMinute, setSelectedMinute] = useState(0);
+
+  const [message, setMessage] = useState("");
+
+  const handleDateChange = (newDateTime: any) => {
+    setSelectedDate(newDateTime);
+  };
+
+  const handleHourChange = (event) => {
+    setSelectedHour(parseInt(event.target.value, 10));
+  };
+
+  const handleMinuteChange = (event) => {
+    setSelectedMinute(parseInt(event.target.value, 10));
   };
 
   // Função para enviar programação para o banco
-  function handleSubmit(event: any) {
+  function handleSubmit(event) {
     event.preventDefault();
-    const data = {
-      id_programacao: props.data.id_programacao,
-      data_agendada: dateTime,
-    };
+    setMessage(""); // Limpar mensagens de erro anteriores
 
-    api
-      .post("agendar", data, {
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-      .then(() => {
-        toast.success("Agendamento concluido com sucesso");
-        console.log(data);
-        props.fetchVideoList()
-        resetStates();
-      })
-      .catch((error) => {
-        const {data} = error.response
-        toast.info(data.detail)
-        console.error("Ocorreu um erro:", error);
-      });
+    const currentDateTime = new Date();
+    const currentHour = currentDateTime.getHours();
+    const currentMinute = currentDateTime.getMinutes();
+
+    const selectedDateTime = new Date(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      selectedDate.getDate(),
+      selectedHour,
+      selectedMinute
+    );
+
+    if (selectedHour === 0 || selectedMinute === 0) {
+      setMessage("Selecione uma hora e minutos válidos!");
+    } else if (selectedDateTime < currentDateTime) {
+      setMessage(
+        "A data e hora selecionadas não podem ser anteriores à data e hora atual!"
+      );
+    } else if (
+      selectedHour < currentHour ||
+      (selectedHour === currentHour && selectedMinute < currentMinute)
+    ) {
+      setMessage("A hora selecionada não pode ser anterior à hora atual!");
+    } else {
+      const formattedDate = selectedDateTime.toISOString();
+      const data = {
+        id_programacao: props.data.id_programacao,
+        data_agendada: formattedDate,
+      };
+      api
+        .post("agendar", data, {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+        .then(() => {
+          toast.success("Agendamento concluído com sucesso");
+          console.log(data);
+          props.fetchVideoList();
+          resetStates();
+        })
+        .catch((error) => {
+          const { data } = error.response;
+          toast.info(data.detail);
+          console.error("Ocorreu um erro:", error);
+        });
+    }
   }
 
   return (
@@ -81,20 +111,46 @@ export function ModalCriarAgendamento(props) {
             </span>
           </div>
           <Form onSubmit={handleSubmit}>
-            <label>Selecione uma data e hora</label>
-            <DatePicker
-              className="datepicker-wrapper"
-              selected={dateTime}
-              onChange={handleDateTimeChange}
-              showTimeSelect
-              dateFormat="dd/MM/yyyy HH:mm"
-              timeFormat="HH:mm"
-              locale={pt} // Configuração para o idioma português
-            />
-            <button type="submit">Salvar</button>
+            <ContentDate>
+              <div>
+                <label>Selecione uma data e hora</label>
+                <DatePicker
+                  className="datepicker-wrapper"
+                  selected={selectedDate}
+                  onChange={handleDateChange}
+                  dateFormat="dd/MM/yyyy"
+                  locale={pt} // Configuração para o idioma português
+                />
+                <p style={{ color: "red" }}>{message && message}</p>
+              </div>
+              <Hours>
+                <div className="hour">
+                  <label>Horas</label>
+                  <select value={selectedHour} onChange={handleHourChange}>
+                    {[...Array(24).keys()].map((hour) => (
+                      <option key={hour} value={hour}>
+                        {hour}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="minute">
+                  <label>Minutos</label>
+                  <select value={selectedMinute} onChange={handleMinuteChange}>
+                    {[...Array(60).keys()].map((minute) => (
+                      <option key={minute} value={minute}>
+                        {minute}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </Hours>
+            </ContentDate>
+            {/* <p>Data e hora selecionadas: {formatarData(formattedDate)}</p> */}
+            <button type="submit">
+              <FloppyDisk size={20} weight="bold" /> Salvar
+            </button>
           </Form>
-
-          
         </ContentModal>
       </Modal.Body>
     </Modal>

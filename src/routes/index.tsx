@@ -4,6 +4,7 @@ import { Login } from "../page/Login";
 import { CreateSchedule } from "../page/CreateSchedule";
 import { ListAllSchedule } from "../page/ListAllSchedule";
 import PrivateRoutes from "./PrivateRouter";
+import DateTimePicker from "../page/Teste";
 
 
 //import { DefaultLayout } from './components/Layout/DefaultLayout'
@@ -11,6 +12,7 @@ import PrivateRoutes from "./PrivateRouter";
 export function Router() {
   return (
     <Routes>
+       <Route path="/views/data" element={<DateTimePicker />} />
        <Route path="/" element={<Login />} />
       <Route path="/views/cadastrar_video" element={<PrivateRoutes><UploadVideo /></PrivateRoutes>} />
       <Route path="/views/criar_programacao" element={<PrivateRoutes><CreateSchedule /></PrivateRoutes>} />

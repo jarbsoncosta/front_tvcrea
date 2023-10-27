@@ -175,9 +175,9 @@ export function ListAllSchedule() {
               <h5>Lista de programação</h5>
             </div>
 
-            <ButtonCriarProgramacao to="/views/criar_programacao">
+            {/* <ButtonCriarProgramacao to="/views/criar_programacao">
               <Queue size={25} weight="bold" /> Criar Programação
-            </ButtonCriarProgramacao>
+            </ButtonCriarProgramacao> */}
           </Title>
           <div
             style={{
