@@ -21,8 +21,12 @@ export function Header() {
         <StylesLink to="/views/criar_programacao">Criar programação</StylesLink>
         <h5>|</h5>
         <StylesLink to="/views/programacao">Agendamentos</StylesLink>
-        <h5>|</h5>
-        <Button onClick={() => setModalShow(true)} >Criar usuário</Button>
+        {user.username === "admin" && (
+          <>
+          <h5>|</h5>
+          <Button onClick={() => setModalShow(true)} >Criar usuário</Button>
+          </>
+        )}
       </ContentLinks>
 
       <div style={{ display: "flex", gap: "0.5rem" }}>
