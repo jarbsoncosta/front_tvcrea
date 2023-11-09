@@ -41,7 +41,6 @@ export function ModalCriarAgendamento(props) {
 
     const currentDateTime = new Date();
     const currentHour = currentDateTime.getHours();
-    const currentMinute = currentDateTime.getMinutes();
 
     const selectedDateTime = new Date(
       selectedDate.getFullYear(),

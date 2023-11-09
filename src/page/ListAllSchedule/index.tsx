@@ -5,13 +5,11 @@ import {
   Circle,
   ClipboardText,
   Clock,
-  Queue,
   Trash,
 } from "@phosphor-icons/react";
 import { Header } from "../../components/Header";
 import {
   ButtonAgendarProgramacao,
-  ButtonCriarProgramacao,
   ButtonListarProgramacao,
   ButtonTask,
   Container,
@@ -54,17 +52,15 @@ interface Programacao {
       nome: string;
       duracao: number;
       thumb: string;
+      v_hide: boolean;
     }
   ];
 }
 
-
-
-
 export function ListAllSchedule() {
   const [showTable, setShowTable] = useState(null);
 
-  const { user } = useAuth();  
+  const { user } = useAuth();
 
   function handleChangeShowTable(itemId: any) {
     setShowTable(itemId === showTable ? null : itemId);
@@ -219,6 +215,16 @@ export function ListAllSchedule() {
                   const horaFim = new Date(objeto.hora_fim);
                   return horaFim >= dataAtual;
                 });
+
+                //Mostrar os videos deletados para os admins
+                const filterListNotAdmin = item.sequencia.filter(
+                  (item) => item.v_hide === false && user.username !== "admin"
+                );
+                let arraySequencia = filterListNotAdmin;
+                if (user.username === "admin") {
+                  arraySequencia = item?.sequencia;
+                }
+
                 return (
                   <>
                     <Item
@@ -238,7 +244,12 @@ export function ListAllSchedule() {
                         ) : (
                           <CaretRight size={25} color="#6b7280" />
                         )}
-                        <span style={{margin:"-3rem 0 0 2rem", position:"absolute"}}>
+                        <span
+                          style={{
+                            margin: "-3rem 0 0 2rem",
+                            position: "absolute",
+                          }}
+                        >
                           {item?.p_hide === true && (
                             <Circle size={17} color="red" weight="fill" />
                           )}{" "}
@@ -290,10 +301,18 @@ export function ListAllSchedule() {
                     </Item>
                     {showTable === item.id_programacao && (
                       <ListVideo>
-                        {item.sequencia.map((video, index) => {
+                        {arraySequencia.map((video, index) => {
                           return (
                             <Video key={index}>
                               <li>
+                              {video?.v_hide === true && (
+                                    <Circle
+                                      size={17}
+                                      color="#f87171"
+                                      weight="fill"
+                                      style={{position:"absolute", margin:"-2rem 0 0 -1.1rem"}}
+                                    />
+                                  )}{" "}
                                 <div
                                   style={{
                                     width: "45px",
@@ -305,6 +324,7 @@ export function ListAllSchedule() {
                                     marginRight: "1rem",
                                   }}
                                 >
+                                
                                   <img
                                     style={{
                                       width: "35px",
@@ -320,6 +340,7 @@ export function ListAllSchedule() {
                                     }
                                   />
                                 </div>
+                                
                                 <strong>{video.nome} / </strong>
                                 <span>
                                   <Clock
