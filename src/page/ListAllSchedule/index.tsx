@@ -87,9 +87,11 @@ export function ListAllSchedule() {
   const filterListNotAdmin = list.filter(
     (item) => item.p_hide === false && user.username !== "admin"
   );
-  let array = filterListNotAdmin;
+  let array = []
   if (user.username === "admin") {
     array = list;
+  }else{
+    array = filterListNotAdmin
   }
 
   console.log(array);
@@ -217,10 +219,10 @@ export function ListAllSchedule() {
                 });
 
                 //Mostrar os videos deletados para os admins
-                const filterListNotAdmin = item.sequencia.filter(
+                const filterListSequenciaNotAdmin = item.sequencia.filter(
                   (item) => item.v_hide === false && user.username !== "admin"
                 );
-                let arraySequencia = filterListNotAdmin;
+                let arraySequencia = filterListSequenciaNotAdmin;
                 if (user.username === "admin") {
                   arraySequencia = item?.sequencia;
                 }

@@ -1,10 +1,13 @@
 import { useAuth } from "../../context/authContext";
-import { ContentLinks, HeaderContainer, StylesLink } from "./styles";
+import { Button, ContentLinks, HeaderContainer, StylesLink } from "./styles";
 import { User, DoorOpen } from "@phosphor-icons/react";
 import Logo from "../../assets/logo.png";
+import { useState } from "react";
+import { ModalCreateUser } from "../ModalCreateUser";
 
 export function Header() {
   const { user, signOut } = useAuth();
+  const [modalShow, setModalShow] = useState(false);
 
   return (
     <HeaderContainer>
@@ -18,6 +21,8 @@ export function Header() {
         <StylesLink to="/views/criar_programacao">Criar programação</StylesLink>
         <h5>|</h5>
         <StylesLink to="/views/programacao">Agendamentos</StylesLink>
+        <h5>|</h5>
+        <Button onClick={() => setModalShow(true)} >Criar usuário</Button>
       </ContentLinks>
 
       <div style={{ display: "flex", gap: "0.5rem" }}>
@@ -39,6 +44,11 @@ export function Header() {
           </button>
         </div>
       </div>
+
+      <ModalCreateUser
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </HeaderContainer>
   );
 }

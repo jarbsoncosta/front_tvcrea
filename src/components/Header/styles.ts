@@ -29,6 +29,19 @@ export const StylesLink = styled(NavLink)`
   text-decoration: none;
 `;
 
+export const Button = styled.button`
+  display: flex;
+  align-items: center;
+  border: 0;
+  font-size: 1.1rem;
+  color: ${(props) => props.theme["gray-100"]};
+  background-color: transparent;
+  &:hover {
+    color: ${(props) => props.theme["yellow-400"]};
+  }
+  text-decoration: none;
+`;
+
 export const ContentLinks = styled.div`
   display: flex;
   align-items: center;
