@@ -214,7 +214,7 @@ export function ComponentForm({ data }: any) {
                 </span>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <FormLabel>Título:</FormLabel>
+                <FormLabel>Nome:</FormLabel>
                 <FormInput
                   type="text"
                   name="assunto"
@@ -253,7 +253,7 @@ export function ComponentForm({ data }: any) {
               <>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <FormLabel>
-                    Assunto: <span style={{ color: "red" }}>*</span>{" "}
+                    Nome: <span style={{ color: "red" }}>*</span>{" "}
                   </FormLabel>
                   <FormInput
                     type="text"
