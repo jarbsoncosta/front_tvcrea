@@ -50,7 +50,7 @@ export const Icon = styled.div`
   }
 `;
 export const Content = styled.div`
-  width: 35%;
+  min-width: 35%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,6 +78,7 @@ export const Uploading = styled.div`
 
   strong {
     display: flex;
+    
     align-items: center;
     gap: 1rem;
     border-radius: 5px;

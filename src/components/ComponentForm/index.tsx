@@ -321,8 +321,7 @@ export function ComponentForm({ data }: any) {
       <div>
         {thumbnail && (
           <SelectThumbnail>
-            <span>Imagen Selecionada</span>
-
+            <span>Imagem Selecionada</span>
             <Thumbnail>
               <img
                 width={250}

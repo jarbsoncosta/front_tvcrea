@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled, keyframes } from "styled-components";
 import { NavLink } from "react-router-dom";
 
 export const Container = styled.main`
@@ -80,7 +80,7 @@ export const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
   tr {
-    padding:10px;
+    padding: 10px;
     text-align: center;
   }
   td {
@@ -132,12 +132,30 @@ export const ButtonAddVideo = styled.button`
   }
 `;
 
+const dotAnimation = keyframes`
+  0%, 80%, 100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+`;
 export const Validate = styled.div`
   display: flex;
   justify-content: center;
   gap: 0.5rem;
   align-items: center;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  background-color: #fde68a;
+  border-radius: 4px;
+  color: ${(props) => props.theme["blue-back"]};
+
+  span {
+    content: "";
+    font-weight: 700;
+    margin-left: -7px;
+    animation: ${dotAnimation} 1.4s infinite;
+  }
 `;
 
 export const ButtonTask = styled.button`

@@ -30,6 +30,7 @@ import {
 import { ModalContent } from "../../components/Modal";
 import { api } from "../../services/api";
 import { useAuth } from "../../context/authContext";
+import ImgPadao from "../../assets/img-padrao.jpg";
 
 interface Filmes {
   id: number;
@@ -47,20 +48,22 @@ interface Filmes {
   videoId: string;
   erros: string;
   status: boolean;
-  hide:boolean
+  hide: boolean;
 }
 
 export function CreateSchedule() {
   const { user } = useAuth();
   const [list, setList] = useState<Filmes[]>([]);
-  
-const filterListNotAdmin = list.filter((item)=> item.hide === false && user.username !== "admin")
- let array = filterListNotAdmin 
- console.log(list)
- if(user.username === "admin"){
-  array = list
- }
- 
+
+  const filterListNotAdmin = list.filter(
+    (item) => item.hide === false && user.username !== "admin"
+  );
+  let array = filterListNotAdmin;
+  console.log(list);
+  if (user.username === "admin") {
+    array = list;
+  }
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -191,14 +194,20 @@ const filterListNotAdmin = list.filter((item)=> item.hide === false && user.user
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td style={{width:"250px", display:"flex",alignItems:"center"}} onClick={() => activeModal(video)}>
-                      <span style={{margin:"-3rem 0 0 -1rem", position:"absolute"}}>{video.hide === true && (
-                           <Circle
-                           size={17}
-                           color="red"
-                           weight="fill"
-                         />
-                        )} </span>
+                      <td
+                        style={{ display: "flex", alignItems: "center" }}
+                        onClick={() => activeModal(video)}
+                      >
+                        <span
+                          style={{
+                            margin: "-3rem 0 0 -1rem",
+                            position: "absolute",
+                          }}
+                        >
+                          {video.hide === true && (
+                            <Circle size={17} color="red" weight="fill" />
+                          )}{" "}
+                        </span>
                         <div
                           style={{
                             width: "45px",
@@ -211,38 +220,38 @@ const filterListNotAdmin = list.filter((item)=> item.hide === false && user.user
                           }}
                         >
                           <img
-                           
-                            src={video.localizacao_thumb}
+                            src={
+                              video.localizacao_thumb === null
+                                ? ImgPadao
+                                : video.localizacao_thumb
+                            }
                             alt=""
                             style={{
                               width: "35px",
                               height: "35px",
                               cursor: "pointer",
-                             
-                              marginLeft:"2px"
-                              
+                              marginLeft: "2px",
                             }}
                           />
                         </div>
                         <strong style={{ color: "#374151", fontWeight: 500 }}>
                           {video.assunto}
                         </strong>
-                      
                       </td>
                       <td
                         style={{
                           textAlign: "center",
                           fontSize: "0.75rem",
                           color: "#6b7280",
-                          width: 100,
                         }}
                       >
                         {formatarTamanhoDoVideo(video.tamanho)}
                       </td>
-                      <td style={{ textAlign: "center", width: 100 }}>
+                      <td style={{ textAlign: "center" }}>
                         <span
                           style={{
                             background: "#e2e8f0",
+                            fontSize: "0.75rem",
                             padding: "2px 5px",
                             borderRadius: "4px",
                             color: "#074e8c",
@@ -252,18 +261,10 @@ const filterListNotAdmin = list.filter((item)=> item.hide === false && user.user
                         </span>
                       </td>
 
-                      <td
-                        style={{ textAlign: "center", width: "200px" }}
-                        align="center"
-                      >
+                      <td style={{ textAlign: "center" }} align="center">
                         {video.status === false ? (
                           <Validate>
-                            <span> Proces...</span>
-                            <Spinner
-                              style={{ width: "17px", height: "17px" }}
-                              animation="border"
-                              variant="primary"
-                            />
+                            Process<span>...</span>
                           </Validate>
                         ) : (
                           <CheckCircle color="#16a34a" size={30} />
