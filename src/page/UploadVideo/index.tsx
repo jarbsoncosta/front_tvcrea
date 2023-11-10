@@ -8,6 +8,7 @@ import { Header } from "../../components/Header";
 import { api } from "../../services/api";
 import { UploadSimple } from "@phosphor-icons/react";
 import { useAuth } from "../../context/authContext";
+import { LoadingComponent } from "../../components/Loading";
 
 export function UploadVideo() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -88,7 +89,8 @@ export function UploadVideo() {
             {isLoading && selectedFile ? (
               <Button onClick={handleButtonClick}>
                 <UploadSimple size={32} weight="bold" />
-                CARREGANDO ...
+                <LoadingComponent text="CARREGANDO" />
+                 
               </Button>
             ) : (
               !storedFile && (
