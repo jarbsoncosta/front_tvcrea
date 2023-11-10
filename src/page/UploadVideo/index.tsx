@@ -20,6 +20,8 @@ export function UploadVideo() {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
 
+   
+
     setSelectedFile(file);
   };
 
@@ -35,7 +37,9 @@ export function UploadVideo() {
       return;
     }
     const formData = new FormData();
+  
     formData.append("file", selectedFile);
+  if(selectedFile.name.length <= 64){
     api
       .post("arquivos/upload", formData, {
         headers: {
@@ -58,6 +62,11 @@ export function UploadVideo() {
         console.error("Erro durante o upload do vídeo:", error);
         toast.error("Erro ao carregar o vídeo, tente novamente mais tarde");
       });
+  }else{
+    toast.error("O nome do vídeo ultrapassou o limite de 64 caracteres. Por favor, renomeie.");
+    setLoading(false);
+  }
+
   };
   useEffect(() => {
     handleUpload();
